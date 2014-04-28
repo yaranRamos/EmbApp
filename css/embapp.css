@@ -1,0 +1,12 @@
+p {
+	font-weight: bold !important;
+}
+
+label {
+	font-size: 16px !important;
+	font-weight: bold !important;
+}
+
+.ancho-max {
+	width: 100%;
+}
