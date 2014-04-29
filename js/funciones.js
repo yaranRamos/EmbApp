@@ -82,6 +82,7 @@
 					localStorage.clear();
 					db.transaction(function(tx){
 						tx.executeSql("DROP TABLE cita");
+						tx.executeSql("DROP TABLE medicamento");
 					}, error_log);
 					location.reload();
 				}
@@ -128,7 +129,12 @@
 				var cadena = "<ul>";
 				for(var i=0; i<result.rows.length; i++){
 					var row = result.rows.item(i);
-					cadena += "<li class='arrow selectable' data-view-section='modificar_cita'><div class='on-right'>"+row.fecha+"</div><strong>"+row.etiqueta+" - "+row.hora+"</strong><small>"+row.descripcion+"</small></li>";
+					if(row.alarma == "true"){
+						cadena += "<li class='arrow selectable' data-view-section='modificar_cita' ><span class='icon bell'></span>";
+					} else{
+						cadena += "<li class='arrow selectable' data-view-section='modificar_cita' ><span class='icon circle-blank'></span>";
+					}
+					cadena += "<div class='on-right'>"+row.fecha+"</div><strong>"+row.etiqueta+" - "+row.hora+"</strong><small>"+row.descripcion+"</small></li>";
 				}
 				cadena += "</ul>";
 				$$('#lista_citas').html(cadena);
@@ -188,10 +194,109 @@
 					var cadena = "<ul>";
 					for(var i=0; i<result.rows.length; i++){
 						var row = result.rows.item(i);
-						cadena += "<li class='arrow selectable' data-view-section='modificar_cita'><div class='on-right'>"+row.fecha+"</div><strong>"+row.etiqueta+" - "+row.hora+"</strong><small>"+row.descripcion+"</small></li>";
+						if(row.alarma == "true"){
+							cadena += "<li class='arrow selectable' data-view-section='modificar_cita' ><span class='icon bell'></span>";
+						} else{
+							cadena += "<li class='arrow selectable' data-view-section='modificar_cita' ><span class='icon circle-blank'></span>";
+						}
+					cadena += "<div class='on-right'>"+row.fecha+"</div><strong>"+row.etiqueta+" - "+row.hora+"</strong><small>"+row.descripcion+"</small></li>";
 					}
 					cadena += "</ul>";
 					$$('#lista_citas').html(cadena);
+				});
+			}, error_log);
+			Lungo.Router.back();
+		}
+	});
+
+	$$('#ir_medicamento').tap(function(){
+		db.transaction(function(tx){
+			tx.executeSql("SELECT * FROM medicamento", [], function(tx, result){
+				var cadena = "<ul>";
+				for(var i=0; i<result.rows.length; i++){
+					var row = result.rows.item(i);
+					if(row.alarma == "true"){
+						cadena += "<li class='arrow selectable' data-view-section='modificar_cita' ><span class='icon bell'></span>";
+					} else{
+						cadena += "<li class='arrow selectable' data-view-section='modificar_cita' ><span class='icon circle-blank'></span>";
+					}
+				cadena += "<div class='on-right'>"+row.fecha_final+"</div><strong>"+row.medicamento+"</strong><small>Frecuencia: "+row.frecuencia+" Docificacion: "+row.docificacion+"</small></li>";
+				}
+				cadena += "</ul>";
+				$$('#lista_medicamentos').html(cadena);
+			});
+		}, error_log);
+		Lungo.Router.section('medicamentos');
+	});
+
+	$$('#btn_nuevo_medicamento').tap(function(){
+		$$('#nombre_nuevo_medicamento').val("");
+		$$('#dia_fecha_inicion_nuevo_medicamento').val("");
+		$$('#mes_fecha_inicion_nuevo_medicamento').val("");
+		$$('#ano_fecha_inicion_nuevo_medicamento').val("");
+		$$('#dia_fecha_final_nuevo_medicamento').val("");
+		$$('#mes_fecha_final_nuevo_medicamento').val("");
+		$$('#ano_fecha_final_nuevo_medicamento').val("");
+		$$('#hora_nuevo_medicamento').val("");
+		$$('#min_nuevo_medicamento').val("");
+		$$('#horario_nuevo_medicamento').val("");
+		$$('#frecuencia_nuevo_medicamento').val("");
+		$$('#docificacion_nuevo_medicamento').val("");
+		Lungo.Router.section('nuevo_medicamento');
+	});
+
+	$$('#btn_guardar_nuevo_medicamento').tap(function(){
+		var nombre = $$('#nombre_nuevo_medicamento').val();
+		var dia_inicio = $$('#dia_fecha_inicion_nuevo_medicamento').val();
+		var mes_inicio = $$('#mes_fecha_inicion_nuevo_medicamento').val();
+		var ano_inicio = $$('#ano_fecha_inicion_nuevo_medicamento').val();
+		var dia_final = $$('#dia_fecha_final_nuevo_medicamento').val();
+		var mes_final = $$('#mes_fecha_final_nuevo_medicamento').val();
+		var ano_final = $$('#ano_fecha_final_nuevo_medicamento').val();
+		var hr = $$('#hora_nuevo_medicamento').val();
+		var min = $$('#min_nuevo_medicamento').val();
+		var horario = $$('#horario_nuevo_medicamento').val();
+		var frecuencia = $$('#frecuencia_nuevo_medicamento').val();
+		var docificacion = $$('#docificacion_nuevo_medicamento').val();
+		var alarma = $$('#alarma_nuevo_medicamento')[0].checked;
+		if (nombre == "" || dia_inicio == "" || mes_inicio == "" || ano_inicio == "" || dia_final == "" || mes_final == "" || ano_final == "" || hr == "" || min == "" || horario == "" || frecuencia == "" || docificacion == "") {
+			Lungo.Notification.error(
+				"Error",
+				"Todos los datos son requeridos",
+				"warning-sign",
+				3);
+			return;
+		} else {
+			var id;
+			var fecha_inicio;
+			var fecha_final;
+			var hora;
+			id = hr+min+dia_inicio+mes_inicio+ano_inicio;
+			fecha_inicio = dia_inicio+"/"+mes_inicio+"/"+ano_inicio;
+			fecha_final = dia_final+"/"+mes_final+"/"+ano_final;
+			hora = hr+":"+min+":"+horario;
+			db.transaction(function(tx){
+				tx.executeSql("INSERT INTO medicamento (id, medicamento, fecha_inicio, fecha_final, hora_ingesta, frecuencia, docificacion, alarma) VALUES ("+id+", '"+nombre+"', '"+fecha_inicio+"', '"+fecha_final+"', '"+hora+"', '"+frecuencia+"', '"+docificacion+"', '"+alarma+"');");
+			}, error_log);
+			Lungo.Notification.success(
+				"Datos guardados",
+				"Los datos se an guardado correctamente",
+				"check",
+				3);
+			db.transaction(function(tx){
+				tx.executeSql("SELECT * FROM medicamento", [], function(tx, result){
+					var cadena = "<ul>";
+					for(var i=0; i<result.rows.length; i++){
+						var row = result.rows.item(i);
+						if(row.alarma == "true"){
+							cadena += "<li class='arrow selectable' data-view-section='modificar_cita' ><span class='icon bell'></span>";
+						} else{
+							cadena += "<li class='arrow selectable' data-view-section='modificar_cita' ><span class='icon circle-blank'></span>";
+						}
+					cadena += "<div class='on-right'>"+row.fecha_final+"</div><strong>"+row.medicamento+"</strong><small>Frecuencia: "+row.frecuencia+" Docificacion: "+row.docificacion+"</small></li>";
+					}
+					cadena += "</ul>";
+					$$('#lista_medicamentos').html(cadena);
 				});
 			}, error_log);
 			Lungo.Router.back();

@@ -16,25 +16,28 @@
         <section id="login" data-transition="slide">
             <article id="inicio" class="indented scroll active">
                 <div class="form">
-                    <fieldset class="radius shadow">
-                        <div style="width:100%; text-align:center;">
-                            <img src="media/embapp.png" style="width:80%;">
-                        </div>
-                        <br>
-                        <div style="width:100%; text-align:center;">
-                            <a href="#" data-label="Siguiente" data-view-article="configuracion_inicial" class="button" style="width:80%; margin-bottom:10px;"></a>
-                            <a href="#" id="salir_inicio" data-label="Salir" class="button" style="width:80%;"></a>
-                        </div>
-                    </fieldset>
+                    <div style="width:100%; text-align:center;">
+                        <img src="media/embapp.png" style="width:80%;">
+                    </div>
+                    <br>
+                    <br>
+                    <div style="width:100%; text-align:center;">
+                        <a href="#" data-label="Siguiente" data-view-article="configuracion_inicial" class="button" style="width:80%; margin-bottom:10px;"></a>
+                        <a href="#" id="salir_inicio" data-label="Salir" class="button" style="width:80%;"></a>
+                    </div>
                 </div>
             </article>
             <article id="configuracion_inicial" class="indented scroll">
                 <div class="form">
-                    <fieldset class="radius shadow">
-                        <p>Ingresa tus datos para empezar a utilizar EmbApp</p>
-                        <br>
+                    <br>
+                    <p>Ingresa tus datos para empezar a utilizar EmbApp</p>
+                    <br>    
+                    <fieldset class="radius">
                         <p>¿Cual es tu nombre?</p>
                         <input id="nombre" type="text" class="border">
+                    </fieldset>
+                    <br>
+                    <fieldset class="radius">
                         <p>¿Cuando fue el primer dia de tu ultimo periodo menstrual?</p>
                         <div style="width:30%; float:left; margin-right:10px;">
                             <select class="custom border" id="dia_fecha">
@@ -89,20 +92,20 @@
                                 <option value="12">Diciembre</option>
                             </select>
                         </div>
-                        <div style="width:30%; float:left; margin-right:10px;">
+                        <div style="width:30%; float:left;">
                             <select class="custom border" id="ano_fecha">
                                 <option value="">Año</option>
                                 <option value="2014">2014</option>
                             </select>
                         </div>
-                        <br>
-                        <br>
-                         <div style="width:100%; text-align:center;">
-                            <a href="#" data-label="Atras" data-view-article="inicio" class="button" style="width:40%;"></a>
-                            &nbsp;
-                            <a href="#" id="guardar_datos" data-label="Guardar" class="button" style="width:40%;"></a>
-                        </div>
                     </fieldset>
+                    <br>
+                    <br>
+                     <div style="width:100%; text-align:center;">
+                        <a href="#" data-label="Atras" data-view-article="inicio" class="button" style="width:40%;"></a>
+                        &nbsp;
+                        <a href="#" id="guardar_datos" data-label="Guardar" class="button" style="width:40%;"></a>
+                    </div>
                 </div>
             </article>
         </section>
@@ -112,7 +115,7 @@
             <article class="list active">
                 <ul>
                     <li data-label="Citas" data-icon="stethoscope" id="ir_citas"></li>
-                    <li data-label="Medicamentos" data-icon="medkit" onclick="Lungo.Router.section('medicamentos');"></li>
+                    <li data-label="Medicamentos" data-icon="medkit" id="ir_medicamento"></li>
                     <li data-label="Alimentos" data-icon="food" onclick="Lungo.Router.section('alimentos');"></li>
                     <li data-label="Ejercicios" data-icon="heart" onclick="Lungo.Router.section('ejercicios');"></li>
                     <li data-label="Configuracion" data-icon="cog" id="ir_configuracion"></li>
@@ -130,12 +133,10 @@
             </header>
             <article id="principal" class="indented scroll active">
                 <div class="form">
-                    <fieldset class="radius">
-                        <br>
-                        <p id="bienvenido"></p>
-                        <br>
-                    </fieldset>
-                        <img src="media/principaambl.png" style="width:100%;">
+                    <br>
+                    <p id="bienvenido"></p>
+                    <br>
+                    <img src="media/principaambl.png" style="width:100%;">
                     <fieldset class="radius shadow">
                         <br>
                         <p>Progreso</p>
@@ -418,7 +419,7 @@
                                 <option value="12">Diciembre</option>
                             </select>
                         </div>
-                        <div style="width:30%; float:left; margin-right:10px;">
+                        <div style="width:30%; float:left;">
                             <select class="custom border" id="ano_form_nueva_cita">
                                 <option value="">Año</option>
                                 <option value="2014">2014</option>
@@ -511,7 +512,7 @@
                                 <option value="60">60</option>
                             </select>
                         </div>
-                        <div style="width:30%; float:left; margin-right:10px;">
+                        <div style="width:30%; float:left;">
                             <select class="custom border" id="horario_form_nueva_cita">
                                 <option value="">Horario</option>
                                 <option value="am">am</option>
@@ -552,7 +553,7 @@
                 <br>
                 <div class="form">
                     <div style="width:100%; text-align:center;">
-                        <button data-label="Agregar Medicamento" data-view-section="nuevo_medicamento"></button>
+                        <button data-label="Agregar Medicamento" id="btn_nuevo_medicamento"></button>
                     </div>
                 </div>
             </article>
@@ -779,7 +780,7 @@
                                 <option value="12">Diciembre</option>
                             </select>
                         </div>
-                        <div style="width:30%; float:left; margin-right:10px;">
+                        <div style="width:30%; float:left;">
                             <select class="custom border" id="ano_fecha_inicion_nuevo_medicamento">
                                 <option value="">Año</option>
                                 <option value="2014">2014</option>
@@ -842,7 +843,7 @@
                                 <option value="12">Diciembre</option>
                             </select>
                         </div>
-                        <div style="width:30%; float:left; margin-right:10px;">
+                        <div style="width:30%; float:left;">
                             <select class="custom border" id="ano_fecha_final_nuevo_medicamento">
                                 <option value="">Año</option>
                                 <option value="2014">2014</option>
@@ -935,7 +936,7 @@
                                 <option value="60">60</option>
                             </select>
                         </div>
-                        <div style="width:30%; float:left; margin-right:10px;">
+                        <div style="width:30%; float:left;">
                             <select class="custom border" id="horario_nuevo_medicamento">
                                 <option value="">Horario</option>
                                 <option value="am">am</option>
@@ -962,12 +963,12 @@
                     <br>
                     <fieldset class="radius">
                         <label class="anchor">Alarma</label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="alarma_nuevo_medicamento">
                     </fieldset>
                     <br>
                     <br>
                     <div style="width:100%; text-align:center;">
-                        <a href="#" data-label="Guardar" data-view-article="" class="button" style="width:80%;"></a>
+                        <a href="#" data-label="Guardar" class="button" style="width:80%;" id="btn_guardar_nuevo_medicamento"></a>
                     </div>
                 </div>
             </article>
@@ -982,25 +983,26 @@
             </header>
             <article id="inicio" class="indented list scroll active">
                 <div class="form">
-                    <fieldset class="radius shadow">
+                    <br>
+                    <fieldset class="radius">
                         <select class="custom border">
                             <option value="1">Selecciona una categoria</option>
                             <option value="2">Two</option>
                             <option value="3">Three</option>
                         </select>
                     </fieldset>
-                    <fieldset class="radius shadow" style="background:#fff;">
-                        <ul>
-                            <li>
-                                <strong>Aguacate</strong>
-                                <small>Beneficios</small>
-                            </li>
-                            <li>
-                                <strong>Papa</strong>
-                                <small>Beneficios</small>
-                            </li>
-                        </ul>
-                    </fieldset>
+                    <br>
+                    <div class="ancho_max" id="lista_de_alimentos"></div>
+                    <ul>
+                        <li>
+                            <strong>Aguacate</strong>
+                            <small>Beneficios</small>
+                        </li>
+                        <li>
+                            <strong>Papa</strong>
+                            <small>Beneficios</small>
+                        </li>
+                    </ul>
                 </div>
             </article>
         </section>
@@ -1049,10 +1051,13 @@
             </header>
             <article id="conf" class="indented scroll active">
                 <div class="form">
-                    <fieldset class="radius shadow">
-                        <br>
+                    <br>
+                    <fieldset class="radius">
                         <p>Tu Nombre</p>
                         <input id="nombre_usuario" type="text" class="border">
+                    </fieldset>
+                    <br>
+                    <fieldset class="radius">
                         <p>¿Cuando fue el primer dia de tu ultima periodo menstrual?</p>
                         <div style="width:30%; float:left; margin-right:10px;">
                             Dia
@@ -1109,13 +1114,14 @@
                                 <option value="12">Diciembre</option>
                             </select>
                         </div>
-                        <div style="width:30%; float:left; margin-right:10px;">
+                        <div style="width:30%; float:left;">
                             Año
                             <select class="custom border" id="ano_fecha_conf">
                                 <option value=""></option>
                                 <option value="2014">2014</option>
                             </select>
                         </div>
+                    </fieldset>
                         <br>
                         <br>
                         <br>

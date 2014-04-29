@@ -141,7 +141,7 @@ section .list li small,
 section .list li a small,
 section .list li .on-right:not(.tag),
 section .list li a .on-right:not(.tag) {
-  color: #808080;
+  color: #000000;
 }
 section .list li .on-right,
 section .list li a .on-right {
