@@ -55,43 +55,60 @@
 		var dia = $$('#dia_fecha').val();
 		var mes = $$('#mes_fecha').val();
 		var ano = $$('#ano_fecha').val();
-		if (nombre == "" || dia == "" || mes == "" || ano == "") {
+		var pin = $$('#pin_seguridad').val();
+		if (nombre == "" || dia == "" || mes == "" || ano == "" || pin == "") {
 			Lungo.Notification.error(
 				"Error",
 				"Todos los datos son requeridos",
 				"warning-sign",
 				3);
-			return;
 		} else {
-			localStorage["nombre"] = nombre;
-			localStorage["fecha"] = dia+"/"+mes+"/"+ano;
-			datos_pamtalla_inicial();
-			Lungo.Router.section('main');
+			if(pin.length == 4){
+				var fecha = dia+"/"+mes+"/"+ano;
+				db.transaction(function(tx){
+					tx.executeSql("INSERT INTO usuario (nombre, fecha, pin) VALUES ('"+nombre+"', '"+fecha+"', '"+pin+"');");
+				}, error_log);
+				localStorage["nombre"] = nombre;
+				localStorage["fecha"] = dia+"/"+mes+"/"+ano;
+				datos_pamtalla_inicial();
+				Lungo.Router.section('main');
+			} else{
+				Lungo.Notification.error(
+					"Error",
+					"El pin debe ser de 4 caracteres",
+					"warning-sign",
+					3);
+			}
 		}
 	});
 
 	$$('#eliminar_cuenta').tap(function() {
-		Lungo.Notification.confirm({
-			icon: 'remove',
-			title: 'Borrar',
-			description: '¿Desea elimiar sus datos?',
-			accept: {
-				icon: 'ok',
-				label: 'Si',
-				callback: function(){
+		Lungo.Notification.html('<div class="form"><br><p>Ingresa tu pin</p><input type="password" class="border" style="width:80%" id="pin_eliminar"><br><button class="anchor" style="width:100%" id="btn_eliminar_cuenta">Aceptar</button><button class="anchor" style="width:100%" data-action="close">Cancelar</button></div>');
+	});
+
+	$$('#btn_eliminar_cuenta').tap(function(){
+		var pin = $$('#pin_eliminar').val();
+		db.transaction(function(tx){
+			tx.executeSql("SELECT pin FROM usuario WHERE nombre='"+localStorage["nombre"]+"';", [], function(tx, result){
+				if(result.rows.item(0).pin == pin){
 					localStorage.clear();
 					db.transaction(function(tx){
-						tx.executeSql("DROP TABLE cita");
-						tx.executeSql("DROP TABLE medicamento");
+						tx.executeSql("DROP TABLE usuario;");
+						tx.executeSql("DROP TABLE cita;");
+						tx.executeSql("DROP TABLE medicamento;");
 					}, error_log);
 					location.reload();
+				} else{
+					Lungo.Notification.error(
+						"Error",
+						"PIN incorrecto",
+						"warning-sign",
+						3);
 				}
-			},
-			cancel: {
-				icon: 'remove',
-				label: 'No'
-			}
-		});
+			});
+		}, error_log);
+		
+		
 	});
 
 	$$('#ir_configuracion').tap(function(){
@@ -125,7 +142,7 @@
 
 	$$('#ir_citas').tap(function(){
 		db.transaction(function(tx){
-			tx.executeSql("SELECT * FROM cita", [], function(tx, result){
+			tx.executeSql("SELECT * FROM cita;", [], function(tx, result){
 				var cadena = "<ul>";
 				for(var i=0; i<result.rows.length; i++){
 					var row = result.rows.item(i);
