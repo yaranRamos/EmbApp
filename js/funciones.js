@@ -50,6 +50,75 @@
 		var fechaAproximada = diaAproximado+"/"+mes+"/"+anoAproximado;
 		$$('#bienvenido').html("Bienvenida "+localStorage.getItem("nombre")+" tu bebe tiene aproximadamente "+0+" semanas, y la fecha de parto aproximada es: ");
 	}
+
+	function modificar_cita(id){
+		db.transaction(function(tx){
+			tx.executeSql("SELECT * FROM cita WHERE id='"+id+"';", [], function(tx, result){
+				var fecha = result.rows.item(0).fecha.split("/");
+				var hora = result.rows.item(0).hora.split(":");
+				var alarma = result.rows.item(0).alarma;
+				$$('#etiqueta_modificar_cita').val(result.rows.item(0).etiqueta);
+				$$('#dia_modificar_cita').val(fecha[0]);
+				$$('#mes_modificar_cita').val(fecha[1]);
+				$$('#ano_modificar_cita').val(fecha[2]);
+				$$('#hora_modificar_cita').val(hora[0]);
+				$$('#min_modificar_cita').val(hora[1]);
+				$$('#horario_modificar_cita').val(hora[2]);
+				$$('#descripcion_modificar_cita').val(result.rows.item(0).descripcion);
+				if(alarma == "true"){
+					$$('#alarma_modificar_cita').attr("checked",true);
+				}
+				if(alarma == "false"){
+					$$('#alarma_modificar_cita').removeAttr("checked");
+				}
+				$$('#id_modificar_cita').val("'"+result.rows.item(0).id+"'");
+			});
+		});
+		Lungo.Router.section('modificar_cita');
+	}
+
+	function modificar_medicamento(id){
+		Lungo.Router.section('modificar_medicamento');
+	}
+	
+	function cargar_lista_citas(){
+		db.transaction(function(tx){
+			tx.executeSql("SELECT * FROM cita;", [], function(tx, result){
+				var cadena = "<ul>";
+				for(var i=0; i<result.rows.length; i++){
+					var row = result.rows.item(i);
+					if(row.alarma == "true"){
+						cadena += "<li class='arrow selectable' onclick='modificar_cita("+row.id+")'><span class='icon bell'></span>";
+					} else{
+						cadena += "<li class='arrow selectable' onclick='modificar_cita("+row.id+")'><span class='icon circle-blank'></span>";
+					}
+					cadena += "<div class='on-right'>"+row.fecha+"</div><strong>"+row.etiqueta+" - "+row.hora+"</strong><small>"+row.descripcion+"</small></li>";
+				}
+				cadena += "</ul>";
+				$$('#lista_citas').html(cadena);
+			});
+		}, error_log);
+	}
+
+	function cargar_lista_medicamentos(){
+		db.transaction(function(tx){
+			tx.executeSql("SELECT * FROM medicamento", [], function(tx, result){
+				var cadena = "<ul>";
+				for(var i=0; i<result.rows.length; i++){
+					var row = result.rows.item(i);
+					if(row.alarma == "true"){
+						cadena += "<li class='arrow selectable' onclick='modificar_medicamento("+row.id+")'><span class='icon bell'></span>";
+					} else{
+						cadena += "<li class='arrow selectable' onclick='modificar_medicamento("+row.id+")'><span class='icon circle-blank'></span>";
+					}
+				cadena += "<div class='on-right'>"+row.fecha_final+"</div><strong>"+row.medicamento+"</strong><small>Frecuencia: "+row.frecuencia+" Docificacion: "+row.docificacion+"</small></li>";
+				}
+				cadena += "</ul>";
+				$$('#lista_medicamentos').html(cadena);
+			});
+		}, error_log);
+	}
+
 	$$('#guardar_datos').tap(function () {
 		var nombre = $$('#nombre').val();
 		var dia = $$('#dia_fecha').val();
@@ -67,10 +136,10 @@
 				var fecha = dia+"/"+mes+"/"+ano;
 				db.transaction(function(tx){
 					tx.executeSql("INSERT INTO usuario (nombre, fecha, pin) VALUES ('"+nombre+"', '"+fecha+"', '"+pin+"');");
+					localStorage["nombre"] = nombre;
+					localStorage["fecha"] = fecha;
+					datos_pamtalla_inicial();
 				}, error_log);
-				localStorage["nombre"] = nombre;
-				localStorage["fecha"] = dia+"/"+mes+"/"+ano;
-				datos_pamtalla_inicial();
 				Lungo.Router.section('main');
 			} else{
 				Lungo.Notification.error(
@@ -107,17 +176,20 @@
 				}
 			});
 		}, error_log);
-		
-		
 	});
 
 	$$('#ir_configuracion').tap(function(){
-		Lungo.Router.section('configuracion');
-		$$('#nombre_usuario').val(localStorage.getItem("nombre"));
-		var fecha = localStorage.getItem("fecha").split("/");
-		$$('#dia_fecha_conf').val(fecha[0]);
-		$$('#mes_fecha_conf').val(fecha[1]);
-		$$('#ano_fecha_conf').val(fecha[2]);
+		db.transaction(function(tx){
+			tx.executeSql("SELECT * FROM usuario;", [], function(tx, result){
+				var fecha = result.rows.item(0).fecha.split("/");
+				Lungo.Router.section('configuracion');
+				$$('#nombre_usuario').val(result.rows.item(0).nombre);
+				$$('#dia_fecha_conf').val(fecha[0]);
+				$$('#mes_fecha_conf').val(fecha[1]);
+				$$('#ano_fecha_conf').val(fecha[2]);
+			});
+		}, error_log);
+		
 	});
 
 	$$('#guardar_datos_conf').tap(function(){
@@ -133,31 +205,19 @@
 				3);
 			return;
 		} else {
-			localStorage["nombre"] = nombre;
-			localStorage["fecha"] = dia+"/"+mes+"/"+ano;
-			datos_pamtalla_inicial();
+			var fecha = dia+"/"+mes+"/"+ano;
+			db.transaction(function(tx){
+				tx.executeSql("UPDATE usuario SET nombre='"+nombre+"', fecha='"+fecha+"' WHERE nombre='"+localStorage["nombre"]+"';");
+				localStorage["nombre"] = nombre;
+				localStorage["fecha"] = fecha;
+				datos_pamtalla_inicial();
+			}, error_log);
 			Lungo.Router.section('main');
 		}
 	});
 
 	$$('#ir_citas').tap(function(){
-		db.transaction(function(tx){
-			tx.executeSql("SELECT * FROM cita;", [], function(tx, result){
-				var cadena = "<ul>";
-				for(var i=0; i<result.rows.length; i++){
-					var row = result.rows.item(i);
-					if(row.alarma == "true"){
-						cadena += "<li class='arrow selectable' data-view-section='modificar_cita' ><span class='icon bell'></span>";
-					} else{
-						cadena += "<li class='arrow selectable' data-view-section='modificar_cita' ><span class='icon circle-blank'></span>";
-					}
-					cadena += "<div class='on-right'>"+row.fecha+"</div><strong>"+row.etiqueta+" - "+row.hora+"</strong><small>"+row.descripcion+"</small></li>";
-				}
-				cadena += "</ul>";
-				$$('#lista_citas').html(cadena);
-			});
-		}, error_log);
-
+		cargar_lista_citas();
 		Lungo.Router.section('citas');
 	});
 
@@ -173,6 +233,7 @@
 		$$('#alarma_cita_nueva').val("");
 		Lungo.Router.section('nueva_cita');
 	});
+
 	$$('#guardar_cita_nueva').tap(function(){
 		var etiqueta = $$('#etiqueta_cita_nueva').val();
 		var dia = $$('#dia_form_nueva_cita').val();
@@ -191,7 +252,6 @@
 				3);
 			return;
 		} else {
-			var array_datos = new Array();
 			var id;
 			var fecha;
 			var hora;
@@ -206,43 +266,71 @@
 				"Los datos se an guardado correctamente",
 				"check",
 				3);
-			db.transaction(function(tx){
-				tx.executeSql("SELECT * FROM cita", [], function(tx, result){
-					var cadena = "<ul>";
-					for(var i=0; i<result.rows.length; i++){
-						var row = result.rows.item(i);
-						if(row.alarma == "true"){
-							cadena += "<li class='arrow selectable' data-view-section='modificar_cita' ><span class='icon bell'></span>";
-						} else{
-							cadena += "<li class='arrow selectable' data-view-section='modificar_cita' ><span class='icon circle-blank'></span>";
-						}
-					cadena += "<div class='on-right'>"+row.fecha+"</div><strong>"+row.etiqueta+" - "+row.hora+"</strong><small>"+row.descripcion+"</small></li>";
-					}
-					cadena += "</ul>";
-					$$('#lista_citas').html(cadena);
-				});
-			}, error_log);
+			cargar_lista_citas();
 			Lungo.Router.back();
 		}
 	});
 
-	$$('#ir_medicamento').tap(function(){
-		db.transaction(function(tx){
-			tx.executeSql("SELECT * FROM medicamento", [], function(tx, result){
-				var cadena = "<ul>";
-				for(var i=0; i<result.rows.length; i++){
-					var row = result.rows.item(i);
-					if(row.alarma == "true"){
-						cadena += "<li class='arrow selectable' data-view-section='modificar_cita' ><span class='icon bell'></span>";
-					} else{
-						cadena += "<li class='arrow selectable' data-view-section='modificar_cita' ><span class='icon circle-blank'></span>";
-					}
-				cadena += "<div class='on-right'>"+row.fecha_final+"</div><strong>"+row.medicamento+"</strong><small>Frecuencia: "+row.frecuencia+" Docificacion: "+row.docificacion+"</small></li>";
+	$$('#guardar_modificar_cita').tap(function(){
+		var etiqueta = $$('#etiqueta_modificar_cita').val();
+		var dia = $$('#dia_modificar_cita').val();
+		var mes = $$('#mes_modificar_cita').val();
+		var ano = $$('#ano_modificar_cita').val();
+		var hr = $$('#hora_modificar_cita').val();
+		var min = $$('#min_modificar_cita').val();
+		var horario = $$('#horario_modificar_cita').val();
+		var descripcion = $$('#descripcion_modificar_cita').val();
+		var alarma = $$('#alarma_modificar_cita')[0].checked;
+		if (nombre == "" || dia == "" || mes == "" || ano == "" || hr == "" || min == "" || horario == "") {
+			Lungo.Notification.error(
+				"Error",
+				"Todos los datos son requeridos",
+				"warning-sign",
+				3);
+			return;
+		} else {
+			var fecha;
+			var hora;
+			fecha = dia+"/"+mes+"/"+ano;
+			hora = hr+":"+min+":"+horario;
+			db.transaction(function(tx){
+				tx.executeSql("UPDATE cita SET etiqueta='"+etiqueta+"', fecha='"+fecha+"', hora='"+hora+"', descripcion='"+descripcion+"', alarma='"+alarma+"' WHERE id="+$$('#id_modificar_cita').val()+";");
+			}, error_log);
+			Lungo.Notification.success(
+				"Datos guardados",
+				"Los datos se an guardado correctamente",
+				"check",
+				3);
+			cargar_lista_citas();
+			Lungo.Router.back();
+		}
+	});
+
+	$$('#eliminar_modificar_cita').tap(function(){
+		Lungo.Notification.confirm({
+			icon: 'remove',
+			title: 'Eliminar',
+			description: '¿Desea eliminar el registro?',
+			accept: {
+				icon: 'ok',
+				label: 'Si',
+				callback: function(){
+					db.transaction(function(tx){
+						tx.executeSql("DELETE FROM cita WHERE id="+$$('#id_modificar_cita').val()+";");
+					}, error_log);
+				cargar_lista_citas();
+				Lungo.Router.back();
 				}
-				cadena += "</ul>";
-				$$('#lista_medicamentos').html(cadena);
-			});
-		}, error_log);
+			},
+			cancel: {
+				icon: 'remove',
+				label: 'No'
+			}
+		});
+	});
+
+	$$('#ir_medicamento').tap(function(){
+		cargar_lista_medicamentos();
 		Lungo.Router.section('medicamentos');
 	});
 
@@ -300,22 +388,7 @@
 				"Los datos se an guardado correctamente",
 				"check",
 				3);
-			db.transaction(function(tx){
-				tx.executeSql("SELECT * FROM medicamento", [], function(tx, result){
-					var cadena = "<ul>";
-					for(var i=0; i<result.rows.length; i++){
-						var row = result.rows.item(i);
-						if(row.alarma == "true"){
-							cadena += "<li class='arrow selectable' data-view-section='modificar_cita' ><span class='icon bell'></span>";
-						} else{
-							cadena += "<li class='arrow selectable' data-view-section='modificar_cita' ><span class='icon circle-blank'></span>";
-						}
-					cadena += "<div class='on-right'>"+row.fecha_final+"</div><strong>"+row.medicamento+"</strong><small>Frecuencia: "+row.frecuencia+" Docificacion: "+row.docificacion+"</small></li>";
-					}
-					cadena += "</ul>";
-					$$('#lista_medicamentos').html(cadena);
-				});
-			}, error_log);
+			cargar_lista_medicamentos();
 			Lungo.Router.back();
 		}
 	});

@@ -78,7 +78,7 @@ section .list li.warning {
   box-shadow: inset 4px 0 #edba22;
 }
 section .list li.arrow::after {
-  border-color: #cfcfcf;
+  border-color: #000000;
 }
 section .list li.contrast,
 section .list li a.contrast {
