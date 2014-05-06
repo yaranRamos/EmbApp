@@ -78,6 +78,29 @@
 	}
 
 	function modificar_medicamento(id){
+		db.transaction(function(tx){
+			tx.executeSql("SELECT * FROM medicamento WHERE id='"+id+"';", [], function(tx, result){
+				var fecha_inicio = result.rows.item(0).fecha_inicio.split("/");
+				var fecha_final = result.rows.item(0).fecha_final.split("/");
+				var hora = result.rows.item(0).hora.split(":");
+				var alarma = result.rows.item(0).alarma;
+				$$('#medicamento_modificar_medicamento').val(result.rows.item(0).medicamento);
+				$$('#dia_modificar_cita').val(fecha[0]);
+				$$('#mes_modificar_cita').val(fecha[1]);
+				$$('#ano_modificar_cita').val(fecha[2]);
+				$$('#hora_modificar_cita').val(hora[0]);
+				$$('#min_modificar_cita').val(hora[1]);
+				$$('#horario_modificar_cita').val(hora[2]);
+				$$('#descripcion_modificar_cita').val(result.rows.item(0).descripcion);
+				if(alarma == "true"){
+					$$('#alarma_modificar_cita').attr("checked",true);
+				}
+				if(alarma == "false"){
+					$$('#alarma_modificar_cita').removeAttr("checked");
+				}
+				$$('#id_modificar_cita').val("'"+result.rows.item(0).id+"'");
+			});
+		});
 		Lungo.Router.section('modificar_medicamento');
 	}
 	
