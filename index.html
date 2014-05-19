@@ -120,11 +120,10 @@
                     <li data-label="Citas" data-icon="stethoscope" id="ir_citas"></li>
                     <li data-label="Medicamentos" data-icon="medkit" id="ir_medicamento"></li>
                     <li data-label="Alimentos" data-icon="food" onclick="Lungo.Router.section('alimentos');"></li>
-                    <li data-label="Ejercicios" data-icon="heart" onclick="Lungo.Router.section('ejercicios');"></li>
+                    <li data-label="Ejercicios" data-icon="heart" id="ir_ejercicio"></li>
                     <li data-label="Configuracion" data-icon="cog" id="ir_configuracion"></li>
                     <li data-label="Acerca de" data-icon="question-sign" onclick="Lungo.Router.section('acerca');"></li>
                     <li data-label="Salir" data-icon="signout" id="salir"></li>
-                    <li data-label="Play sonido" data-icon="play" onclick="play();"></li>
                 </u0l>
             </article>
         </aside>
@@ -244,7 +243,7 @@
                                 <option value="12">Diciembre</option>
                             </select>
                         </div>
-                        <div style="width:30%; float:left; margin-right:10px;">
+                        <div style="width:30%; float:left;">
                             <select class="custom border" id="ano_modificar_cita">
                                 <option value="">Año</option>
                                 <option value="2014">2014</option>
@@ -337,7 +336,7 @@
                                 <option value="60">60</option>
                             </select>
                         </div>
-                        <div style="width:30%; float:left; margin-right:10px;">
+                        <div style="width:30%; float:left;">
                             <select class="custom border" id="horario_modificar_cita">
                                 <option value="">Horario</option>
                                 <option value="am">am</option>
@@ -352,8 +351,8 @@
                     </fieldset>
                     <br>
                     <fieldset class="radius">
-                        <label class="anchor" style="color:#000; font-weight:normal;">Alarma</label>
-                        <input  type="checkbox" class="inline right" id="alarma_modificar_cita">
+                        <label class="anchor">Notificarme</label>
+                        <input  type="checkbox" id="alarma_modificar_cita">
                     </fieldset>
                     <br>
                     <input type="hidden" id="id_modificar_cita">
@@ -544,7 +543,7 @@
                     </fieldset>
                     <br>
                     <fieldset class="radius">
-                        <label class="anchor">Alarma</label>
+                        <label class="anchor">Notificarme</label>
                         <input id="alarma_cita_nueva" type="checkbox">
                     </fieldset>
                     <br>
@@ -646,7 +645,7 @@
                                 <option value="12">Diciembre</option>
                             </select>
                         </div>
-                        <div style="width:30%; float:left; margin-right:10px;">
+                        <div style="width:30%; float:left;">
                             <select class="custom border" id="anoInicia_modificar_medicamento">
                                 <option value="">Año</option>
                                 <option value="2014">2014</option>
@@ -824,18 +823,19 @@
                     <br>
                     <fieldset class="radius">
                         <p>Docificacion</p>
-                        <input type="number" class="border" id="dicificacion_modificar_medicamento">
+                        <input type="number" class="border" id="docificacion_modificar_medicamento">
                     </fieldset>
                     <br>
                     <fieldset class="radius">
-                        <label class="anchor" style="color:#000; font-weight:normal;">Alarma</label>
-                        <input type="checkbox" class="inline right" id="alarma_modificar_medicamento">
+                        <label class="anchor">Notificarme</label>
+                        <input type="checkbox" id="alarma_modificar_medicamento">
                     </fieldset>
                     <br>
+                    <input type="hidden" id="id_modificar_medicamento">
                     <div style="width:100%; text-align:center;">
-                        <a href="#" data-label="Eliminar" data-view-article="conf" class="button" style="width:40%;"></a>
+                        <a href="#" data-label="Eliminar" class="button" style="width:40%;" id="eliminar_medicamento_modificar"></a>
                         &nbsp;
-                        <a href="#" data-label="Guardar" data-view-article="conf" class="button" style="width:40%;"></a>
+                        <a href="#" data-label="Guardar" class="button" style="width:40%;" id="guardar_medicamento_modificar"></a>
                     </div>
                 </div>
             </article>
@@ -1093,7 +1093,7 @@
                     </fieldset>
                     <br>
                     <fieldset class="radius">
-                        <label class="anchor">Alarma</label>
+                        <label class="anchor">Notificarme</label>
                         <input type="checkbox" id="alarma_nuevo_medicamento">
                     </fieldset>
                     <br>
@@ -1116,24 +1116,14 @@
                 <div class="form">
                     <br>
                     <fieldset class="radius">
-                        <select class="custom border">
-                            <option value="1">Selecciona una categoria</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <select class="custom border" id="select_categoria" onchange="muestra_alimentos(this.value);">
+                            <option value="0">Selecciona una categoria</option>
+                            <option value="1">categoria 1</option>
+                            <option value="2">categoria 2</option>
                         </select>
                     </fieldset>
                     <br>
                     <div class="ancho_max" id="lista_de_alimentos"></div>
-                    <ul>
-                        <li>
-                            <strong>Aguacate</strong>
-                            <small>Beneficios</small>
-                        </li>
-                        <li>
-                            <strong>Papa</strong>
-                            <small>Beneficios</small>
-                        </li>
-                    </ul>
                 </div>
             </article>
         </section>
@@ -1147,28 +1137,23 @@
             </header>
             <article id="inicio" class="indented scroll active">
                 <div class="form">
-                    <fieldset class="radius shadow">
-                        <p style="text-align:center; font-weight:bold;">Flexiones de tobillo</p>
-                        <br>
-                        <div style="width:100%; text-align:center;">
-                            <img src="media/captura.png" style="width:80%;">
-                        </div>
-                        <br>
-                        <p>Beneficios</p>
-                        <br>
-                        <p>Paso a paso</p>
-                        <p>1.-</p>
-                        <p>2.-</p>
-                        <p>3.-</p>
-                        <p>4.-</p>
-                        <br>
-                        <br>
-                        <div style="width:100%; text-align:center;">
-                            <a href="#" data-label="Anterior" data-view-article="conf" class="button" style="width:40%;"></a>
-                            &nbsp;
-                            <a href="#" data-label="Siguiente" data-view-article="conf" class="button" style="width:40%;"></a>
-                        </div>
+                    <br>
+                    <p style="text-align:center; font-weight:bold;" id="nombre_ejercicio"></p>
+                    <br>
+                    <div style="width:100%; text-align:center;">
+                        <img src="media/captura.png" style="width:80%;">
+                    </div>
+                    <br>
+                    <fieldset class="radius">
+                        <div id="descripcion_ejercicio"></div>
                     </fieldset>
+                    <br>
+                    <br>
+                    <div style="width:100%; text-align:center;">
+                        <a href="#" data-label="Anterior" class="button" style="width:40%;" id="anterior_ejercicio"></a>
+                        &nbsp;
+                        <a href="#" data-label="Siguiente" class="button" style="width:40%;" id="siguiente_ejercicio"></a>
+                    </div>
                 </div>
             </article>
         </section>

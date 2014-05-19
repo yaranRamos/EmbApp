@@ -34,7 +34,6 @@
 	$$('#modificar_medicamento').swipeRight(function(){
 		Lungo.Router.back();
 	});
-
 	document.addEventListener("backbutton", onBackKeyDown, false);
 	
 	function onBackKeyDown() {
