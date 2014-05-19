@@ -82,23 +82,27 @@
 			tx.executeSql("SELECT * FROM medicamento WHERE id='"+id+"';", [], function(tx, result){
 				var fecha_inicio = result.rows.item(0).fecha_inicio.split("/");
 				var fecha_final = result.rows.item(0).fecha_final.split("/");
-				var hora = result.rows.item(0).hora.split(":");
+				var hora = result.rows.item(0).hora_ingesta.split(":");
 				var alarma = result.rows.item(0).alarma;
 				$$('#medicamento_modificar_medicamento').val(result.rows.item(0).medicamento);
-				$$('#dia_modificar_cita').val(fecha[0]);
-				$$('#mes_modificar_cita').val(fecha[1]);
-				$$('#ano_modificar_cita').val(fecha[2]);
-				$$('#hora_modificar_cita').val(hora[0]);
-				$$('#min_modificar_cita').val(hora[1]);
-				$$('#horario_modificar_cita').val(hora[2]);
-				$$('#descripcion_modificar_cita').val(result.rows.item(0).descripcion);
+				$$('#diaInicio_modificar_medicamento').val(fecha_inicio[0]);
+				$$('#mesInicia_modificar_medicamento').val(fecha_inicio[1]);
+				$$('#anoInicia_modificar_medicamento').val(fecha_inicio[2]);
+				$$('#diaFinal_modificar_medicamento').val(fecha_inicio[0]);
+				$$('#mesFinal_modificar_medicamento').val(fecha_inicio[1]);
+				$$('#anoFinal_modificar_medicamento').val(fecha_inicio[2]);
+				$$('#hora_modificar_medicamento').val(hora[0]);
+				$$('#min_modificar_medicamento').val(hora[1]);
+				$$('#horario_modificar_medicamento').val(hora[2]);
+				$$('#frecuencia_modificar_medicamento').val(result.rows.item(0).frecuencia);
+				$$('#docificacion_modificar_medicamento').val(result.rows.item(0).docificacion);
 				if(alarma == "true"){
 					$$('#alarma_modificar_cita').attr("checked",true);
 				}
 				if(alarma == "false"){
 					$$('#alarma_modificar_cita').removeAttr("checked");
 				}
-				$$('#id_modificar_cita').val("'"+result.rows.item(0).id+"'");
+				$$('#id_modificar_medicamento').val("'"+result.rows.item(0).id+"'");
 			});
 		});
 		Lungo.Router.section('modificar_medicamento');
@@ -413,6 +417,129 @@
 				3);
 			cargar_lista_medicamentos();
 			Lungo.Router.back();
+		}
+	});
+	
+	$$('#guardar_medicamento_modificar').tap(function(){
+		var nombre = $$('#medicamento_modificar_medicamento').val();
+		var dia_inicio = $$('#diaInicio_modificar_medicamento').val();
+		var mes_inicio = $$('#mesInicia_modificar_medicamento').val();
+		var ano_inicio = $$('#anoInicia_modificar_medicamento').val();
+		var dia_final = $$('#diaFinal_modificar_medicamento').val();
+		var mes_final = $$('#mesFinal_modificar_medicamento').val();
+		var ano_final = $$('#anoFinal_modificar_medicamento').val();
+		var hr = $$('#hora_modificar_medicamento').val();
+		var min = $$('#min_modificar_medicamento').val();
+		var horario = $$('#horario_modificar_medicamento').val();
+		var frecuencia = $$('#frecuencia_modificar_medicamento').val();
+		var docificacion = $$('#docificacion_modificar_medicamento').val();
+		var alarma = $$('#alarma_modificar_medicamento')[0].checked;
+		if (nombre == "" || dia_inicio == "" || mes_inicio == "" || ano_inicio == "" || dia_final == "" || mes_final == "" || ano_final == "" || hr == "" || min == "" || horario == "" || frecuencia == "" || docificacion == "") {
+			Lungo.Notification.error(
+				"Error",
+				"Todos los datos son requeridos",
+				"warning-sign",
+				3);
+			return;
+		} else {
+			var id;
+			var fecha_inicio;
+			var fecha_final;
+			var hora;
+			id = hr+min+dia_inicio+mes_inicio+ano_inicio;
+			fecha_inicio = dia_inicio+"/"+mes_inicio+"/"+ano_inicio;
+			fecha_final = dia_final+"/"+mes_final+"/"+ano_final;
+			hora = hr+":"+min+":"+horario;
+			db.transaction(function(tx){
+				tx.executeSql("UPDATE medicamento SET medicamento='"+nombre+"', fecha_inicio='"+fecha_inicio+"', fecha_final='"+fecha_final+"', hora_ingesta='"+hora+"', frecuencia='"+frecuencia+"', docificacion='"+docificacion+"', alarma='"+alarma+"' WHERE id="+$$('#id_modificar_medicamento').val()+";");
+			}, error_log);
+			Lungo.Notification.success(
+				"Datos guardados",
+				"Los datos se an guardado correctamente",
+				"check",
+				3);
+			cargar_lista_medicamentos();
+			Lungo.Router.back();
+		}
+	});
+
+	$$('#eliminar_medicamento_modificar').tap(function(){
+		Lungo.Notification.confirm({
+			icon: 'remove',
+			title: 'Eliminar',
+			description: '¿Desea eliminar el registro?',
+			accept: {
+				icon: 'ok',
+				label: 'Si',
+				callback: function(){
+					db.transaction(function(tx){
+						tx.executeSql("DELETE FROM medicamento WHERE id="+$$('#id_modificar_medicamento').val()+";");
+					}, error_log);
+				cargar_lista_medicamentos();
+				Lungo.Router.back();
+				}
+			},
+			cancel: {
+				icon: 'remove',
+				label: 'No'
+			}
+		});
+	});
+
+	function muestra_alimentos(categoria){
+		db.transaction(function(tx){
+			tx.executeSql("SELECT * FROM alimento WHERE categoria='"+categoria+"';", [], function(tx, result){
+				var cadena = "<ul>";
+				for(var i=0; i<result.rows.length; i++){
+					var row = result.rows.item(i);
+					cadena += "<li><strong>"+row.nombre+"</strong><span class='text small'>"+row.descripcion+"</span></li>"
+				}
+				cadena += "</ul>";
+				$$('#lista_de_alimentos').html(cadena);
+			});
+		}, error_log);
+	}
+
+	var ejercicio = 1;
+	$$('#ir_ejercicio').tap(function(){
+		db.transaction(function(tx){
+			tx.executeSql("SELECT * FROM ejercicio WHERE id='"+ejercicio+"';", [], function(tx, result){
+				$$('#nombre_ejercicio').html(result.rows.item(0).nombre);
+				$$('#descripcion_ejercicio').html(result.rows.item(0).descripcion);
+				Lungo.Router.section('ejercicios');
+			});
+		}, error_log);
+	});
+
+	$$('#siguiente_ejercicio').tap(function(){
+		ejercicio = ejercicio + 1;
+		if(ejercicio == 4){
+			ejercicio = 3;
+			return;
+		} else{
+			db.transaction(function(tx){
+				tx.executeSql("SELECT * FROM ejercicio WHERE id='"+ejercicio+"';", [], function(tx, result){
+					$$('#nombre_ejercicio').html(result.rows.item(0).nombre);
+					$$('#descripcion_ejercicio').html(result.rows.item(0).descripcion);
+					Lungo.Router.section('ejercicios');
+				});
+			}, error_log);
+		}
+	});
+
+	$$('#anterior_ejercicio').tap(function(){
+		ejercicio = ejercicio - 1;
+		if(ejercicio == 0){
+			ejercicio = 1;
+			return;
+		} else{
+			db.transaction(function(tx){
+				tx.executeSql("SELECT * FROM ejercicio WHERE id='"+ejercicio+"';", [], function(tx, result){
+					$$('#nombre_ejercicio').html(result.rows.item(0).nombre);
+					$$('#descripcion_ejercicio').html(result.rows.item(0).descripcion);
+					Lungo.Router.section('ejercicios');
+				});
+			}, error_log);
 		}
 	});
 

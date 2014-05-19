@@ -9,11 +9,16 @@ function onDeviceReady() {
  
 function onPause() {
 	setInterval(function(){
+		navigator.notification.alert("Notificacion de Cita", alertCallback, 'Notificacion', 'Aceptar');
 		navigator.notification.beep(3);
 	},30000);
 }
 
 function onResume() {
+}
+
+function alertCallback() {
+
 }
 
 function play(){
