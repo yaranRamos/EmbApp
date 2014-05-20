@@ -138,17 +138,24 @@
             <article id="principal" class="indented scroll active">
                 <div class="form">
                     <br>
-                    <p id="bienvenido"></p>
+                    <fieldset class="radius" style="text-align:justify;">
+                        <p id="bienvenido"></p>
+                    </fieldset>
                     <br>
                     <img src="media/principaambl.png" style="width:100%;">
                     <fieldset class="radius">
                         <br>
-                        <p>Progreso</p>
-                        <div id="progress-normal" data-progress="80%">
+                        <p id="lbl_proceso"></p>
+                        <br>
+                        <div id="progress-normal" data-progress="">
                             <div class="progress">
-                                <span class="bar"><span class="value" style="width:80%;"></span></span>
+                                <span class="bar">
+                                    <span class="value" id="bar_progress1" style=""></span>
+                                    <!-- <span class="value" id="bar_progress2" style=""></span> -->
+                                </span>
                             </div>
                         </div>
+                        <p class="on-left">0 sem</p><p class="on-right">40 sem</p>
                         <br>
                     </fieldset>
                 </div>
@@ -162,7 +169,7 @@
                     <button data-icon="home" class="on-right" data-view-section="main"></button>
                 </nav>
             </header>
-            <article id="citas_guardadas" class="indented list scroll activ0e">
+            <article id="citas_guardadas" class="indented list scroll active">
                 <div id="lista_citas" class="ancho-max"></div>
                 <br>
                 <br>

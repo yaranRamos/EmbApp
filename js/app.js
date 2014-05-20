@@ -9,6 +9,7 @@ function onDeviceReady() {
  
 function onPause() {
 	setInterval(function(){
+		location.reload();
 		navigator.notification.alert("Notificacion de Cita", alertCallback, 'Notificacion', 'Aceptar');
 		navigator.notification.beep(3);
 	},30000);
