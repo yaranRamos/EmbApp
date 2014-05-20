@@ -153,6 +153,7 @@
 	}
 
 	$$('#guardar_datos').tap(function () {
+		var expRegNombre = /^\s*$/;//expRegular valida no vacio
 		var nombre = $$('#nombre').val();
 		var dia = $$('#dia_fecha').val();
 		var mes = $$('#mes_fecha').val();
@@ -164,6 +165,14 @@
 				"Todos los datos son requeridos",
 				"warning-sign",
 				3);
+				return;
+		}else if(expRegNombre.test(nombre)){
+			Lungo.Notification.error(
+				"Error",
+				"Todos los datos son requeridos",
+				"warning-sign",
+				3);
+			return;
 		} else {
 			if(pin.length == 4){
 				var fecha = dia+"/"+mes+"/"+ano;
@@ -265,6 +274,7 @@
 	});
 
 	$$('#guardar_cita_nueva').tap(function(){
+		var expRegNombre = /^\s*$/;//expRegular valida no vacio
 		var etiqueta = $$('#etiqueta_cita_nueva').val();
 		var dia = $$('#dia_form_nueva_cita').val();
 		var mes = $$('#mes_form_nueva_cita').val();
@@ -274,10 +284,18 @@
 		var horario = $$('#horario_form_nueva_cita').val();
 		var descripcion = $$('#descripcion_cita_nueva').val();
 		var alarma = $$('#alarma_cita_nueva')[0].checked;
-		if (nombre == "" || dia == "" || mes == "" || ano == "" || hr == "" || min == "" || horario == "") {
+		if (etiqueta == "" || dia == "" || mes == "" || ano == "" || hr == "" || min == "" || horario == "") {
 			Lungo.Notification.error(
 				"Error",
 				"Todos los datos son requeridos",
+				"warning-sign",
+				3);
+			return;
+			//Que valla almenos un caracter
+		}else if(expRegNombre.test(etiqueta) || expRegNombre.test(dia) || expRegNombre.test(mes) || expRegNombre.test(ano) || expRegNombre.test(hr) || expRegNombre.test(min) || expRegNombre.test(horario)){
+			Lungo.Notification.error(
+				"Error",
+				"Todos los campos son requeridos",
 				"warning-sign",
 				3);
 			return;
@@ -302,6 +320,7 @@
 	});
 
 	$$('#guardar_modificar_cita').tap(function(){
+		var expRegNombre = /^\s*$/;//expRegular valida no vacio
 		var etiqueta = $$('#etiqueta_modificar_cita').val();
 		var dia = $$('#dia_modificar_cita').val();
 		var mes = $$('#mes_modificar_cita').val();
@@ -315,6 +334,13 @@
 			Lungo.Notification.error(
 				"Error",
 				"Todos los datos son requeridos",
+				"warning-sign",
+				3);
+			return;
+		}else if(expRegNombre.test(etiqueta) || expRegNombre.test(dia) || expRegNombre.test(mes) || expRegNombre.test(ano) || expRegNombre.test(hr) || expRegNombre.test(min) || expRegNombre.test(horario)){
+			Lungo.Notification.error(
+				"Error",
+				"Todos los campos son requeridos",
 				"warning-sign",
 				3);
 			return;
@@ -381,6 +407,7 @@
 	});
 
 	$$('#btn_guardar_nuevo_medicamento').tap(function(){
+		var expRegNombre = /^\s*$/;//expRegular valida no vacio
 		var nombre = $$('#nombre_nuevo_medicamento').val();
 		var dia_inicio = $$('#dia_fecha_inicion_nuevo_medicamento').val();
 		var mes_inicio = $$('#mes_fecha_inicion_nuevo_medicamento').val();
@@ -398,6 +425,13 @@
 			Lungo.Notification.error(
 				"Error",
 				"Todos los datos son requeridos",
+				"warning-sign",
+				3);
+			return;
+		}else if(expRegNombre.test(nombre) || expRegNombre.test(dia_inicio) || expRegNombre.test(mes_inicio) || expRegNombre.test(ano_inicio) || expRegNombre.test(dia_final) || expRegNombre.test(mes_final) || expRegNombre.test(ano_final) || expRegNombre.test(hr) || expRegNombre.test(min) || expRegNombre.test(horario) || expRegNombre.test(frecuencia) || expRegNombre.test(docificacion)){
+			Lungo.Notification.error(
+				"Error",
+				"Todos los campos son requeridos",
 				"warning-sign",
 				3);
 			return;
@@ -441,6 +475,13 @@
 			Lungo.Notification.error(
 				"Error",
 				"Todos los datos son requeridos",
+				"warning-sign",
+				3);
+			return;
+		}else if(expRegNombre.test(nombre) || expRegNombre.test(dia_inicio) || expRegNombre.test(mes_inicio) || expRegNombre.test(ano_inicio) || expRegNombre.test(dia_final) || expRegNombre.test(mes_final) || expRegNombre.test(ano_final) || expRegNombre.test(hr) || expRegNombre.test(min) || expRegNombre.test(horario) || expRegNombre.test(frecuencia) || expRegNombre.test(docificacion)){
+			Lungo.Notification.error(
+				"Error",
+				"Todos los campos son requeridos",
 				"warning-sign",
 				3);
 			return;
