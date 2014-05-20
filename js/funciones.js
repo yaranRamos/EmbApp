@@ -11,15 +11,15 @@
 		var mesAproximado = parseInt(mesUsuario) - 3;
 		var anoAproximado = anoUsuario;
 		var mes = "";
-		var semanasAproximadas = (parseInt(mesActual) - parseInt(mesUsuario)) / 7;
+		//alert(mesActual+" / "+mesUsuario);
+		var semanasAproximadas = (parseInt(mesActual) - parseInt(mesUsuario)) * 4;
 		if(diaAproximado > 30){
 			diaAproximado = parseInt(diaAproximado) - 30;
 		}
-		if(mesAproximado < 0){
-			mesAproximado = parseInt(mesAproximado) - 12;
-			anoAproximado = parseInt(anoAproximado) +1;
+		if(mesAproximado <= 0){
+			mesAproximado = parseInt(mesAproximado) + 12;
 		}
-		if(mesUsuario >= 4){
+		if(mesUsuario > 3){
 			anoAproximado = parseInt(anoAproximado) +1;
 		}
 		if(mesAproximado == 1){
@@ -48,7 +48,13 @@
 			mes = "Diciembre";
 		}
 		var fechaAproximada = diaAproximado+"/"+mes+"/"+anoAproximado;
-		$$('#bienvenido').html("Bienvenida "+localStorage.getItem("nombre")+" tu bebe tiene aproximadamente "+0+" semanas, y la fecha de parto aproximada es: ");
+		$$('#bienvenido').html("Bienvenida "+localStorage.getItem("nombre")+" tu bebe tiene aproximadamente "+semanasAproximadas+" semanas, y la fecha de parto aproximada es: <b>"+fechaAproximada+"</b>");
+		var progreso = (semanasAproximadas / 40) * 100;
+		$$('#lbl_proceso').html("Progreso: "+progreso+"%")
+		Lungo.Element.progress('#progress-normal', progreso, true);
+		/*$$('#progress-normal').data('progress', progreso+"%");
+		$$('#bar_progress1').style('width', progreso+"%")
+		$$('#bar_progress2').style('width', progreso+"%")*/
 	}
 
 	function modificar_cita(id){
@@ -165,6 +171,7 @@
 					tx.executeSql("INSERT INTO usuario (nombre, fecha, pin) VALUES ('"+nombre+"', '"+fecha+"', '"+pin+"');");
 					localStorage["nombre"] = nombre;
 					localStorage["fecha"] = fecha;
+					localStorage["pin"] = pin;
 					datos_pamtalla_inicial();
 				}, error_log);
 				Lungo.Router.section('main');
@@ -184,25 +191,21 @@
 
 	$$('#btn_eliminar_cuenta').tap(function(){
 		var pin = $$('#pin_eliminar').val();
-		db.transaction(function(tx){
-			tx.executeSql("SELECT pin FROM usuario WHERE nombre='"+localStorage["nombre"]+"';", [], function(tx, result){
-				if(result.rows.item(0).pin == pin){
-					localStorage.clear();
-					db.transaction(function(tx){
-						tx.executeSql("DROP TABLE usuario;");
-						tx.executeSql("DROP TABLE cita;");
-						tx.executeSql("DROP TABLE medicamento;");
-					}, error_log);
-					location.reload();
-				} else{
-					Lungo.Notification.error(
-						"Error",
-						"PIN incorrecto",
-						"warning-sign",
-						3);
-				}
-			});
-		}, error_log);
+		if(localStorage["pin"] == pin){
+			localStorage.clear();
+			db.transaction(function(tx){
+				tx.executeSql("DROP TABLE usuario;");
+				tx.executeSql("DROP TABLE cita;");
+				tx.executeSql("DROP TABLE medicamento;");
+			}, error_log);
+			location.reload();
+		} else{
+			Lungo.Notification.error(
+				"Error",
+				"PIN incorrecto",
+				"warning-sign",
+				3);
+		}
 	});
 
 	$$('#ir_configuracion').tap(function(){
