@@ -167,7 +167,7 @@
 					localStorage["fecha"] = fecha;
 					datos_pamtalla_inicial();
 				}, error_log);
-				Lungo.Router.section('main');
+				Lungo.Router.section('main');// redirige a una seccion
 			} else{
 				Lungo.Notification.error(
 					"Error",
