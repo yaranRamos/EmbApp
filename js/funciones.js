@@ -232,11 +232,19 @@
 	});
 
 	$$('#guardar_datos_conf').tap(function(){
+		var expRegNombre = /^\s*$/;//expRegular valida no vacio
 		var nombre = $$('#nombre_usuario').val();
 		var dia = $$('#dia_fecha_conf').val();
 		var mes = $$('#mes_fecha_conf').val();
 		var ano = $$('#ano_fecha_conf').val();
 		if (nombre == "" && dia == "" && mes == "" && ano == "") {
+			Lungo.Notification.error(
+				"Error",
+				"Todos los datos son requeridos",
+				"warning-sign",
+				3);
+			return;
+		}else if(expRegNombre.test(nombre)){
 			Lungo.Notification.error(
 				"Error",
 				"Todos los datos son requeridos",
