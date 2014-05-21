@@ -10,9 +10,10 @@
 		var diaAproximado = parseInt(diaUsuario) + 7;
 		var mesAproximado = parseInt(mesUsuario) - 3;
 		var anoAproximado = anoUsuario;
+		var hora = fechaActual.getHours()+":"+fechaActual.getMinutes();
 		var mes = "";
-		//alert(mesActual+" / "+mesUsuario);
 		var semanasAproximadas = (parseInt(mesActual) - parseInt(mesUsuario)) * 4;
+		var meses_feto = parseInt(mesActual) - parseInt(mesUsuario);
 		if(diaAproximado > 30){
 			diaAproximado = parseInt(diaAproximado) - 30;
 		}
@@ -49,12 +50,30 @@
 		}
 		var fechaAproximada = diaAproximado+"/"+mes+"/"+anoAproximado;
 		$$('#bienvenido').html("Bienvenida "+localStorage.getItem("nombre")+" tu bebe tiene aproximadamente "+semanasAproximadas+" semanas, y la fecha de parto aproximada es: <b>"+fechaAproximada+"</b>");
+		if (meses_feto == 0) {
+			$$('#img_feto').attr('src', 'media/fetos/feto1.png');
+		} else if (meses_feto == 1) {
+			$$('#img_feto').attr('src', 'media/fetos/feto1.png');
+		} else if (meses_feto == 2) {
+			$$('#img_feto').attr('src', 'media/fetos/feto2.png');
+		} else if (meses_feto == 3) {
+			$$('#img_feto').attr('src', 'media/fetos/feto3.png');
+		} else if (meses_feto == 4) {
+			$$('#img_feto').attr('src', 'media/fetos/feto4.png');
+		} else if (meses_feto == 5) {
+			$$('#img_feto').attr('src', 'media/fetos/feto5.png');
+		} else if (meses_feto == 6) {
+			$$('#img_feto').attr('src', 'media/fetos/feto6.png');
+		} else if (meses_feto == 7) {
+			$$('#img_feto').attr('src', 'media/fetos/feto7.png');
+		} else if (meses_feto == 8) {
+			$$('#img_feto').attr('src', 'media/fetos/feto8.png');
+		} else if (meses_feto == 9) {
+			$$('#img_feto').attr('src', 'media/fetos/feto9.png');
+		}
 		var progreso = (semanasAproximadas / 40) * 100;
 		$$('#lbl_proceso').html("Progreso: "+progreso+"%")
 		Lungo.Element.progress('#progress-normal', progreso, true);
-		/*$$('#progress-normal').data('progress', progreso+"%");
-		$$('#bar_progress1').style('width', progreso+"%")
-		$$('#bar_progress2').style('width', progreso+"%")*/
 	}
 
 	function modificar_cita(id){
