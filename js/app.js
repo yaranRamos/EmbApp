@@ -87,5 +87,6 @@ Lungo.ready(function(){
 		Lungo.Router.section('main');
 	} else {
 		Lungo.Router.section('login');
+		$("#ano_fecha").val("");
 	}
 });
