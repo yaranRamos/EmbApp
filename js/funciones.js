@@ -48,7 +48,7 @@
 			mes = "Diciembre";
 		}
 		var fechaAproximada = diaAproximado+"/"+mes+"/"+anoAproximado;
-		$$('#bienvenido').html("Bienvenida "+localStorage.getItem("nombre")+" tu bebe tiene aproximadamente "+semanasAproximadas+" semanas, y la fecha de parto aproximada es: <b>"+fechaAproximada+"</b>");
+		$$('#bienvenido').html("Bienvenida "+localStorage.getItem("nombre")+" tú bebe tiene aproximadamente "+semanasAproximadas+" semanas, y la fecha de parto aproximada es: <b>"+fechaAproximada+"</b>");
 		var progreso = (semanasAproximadas / 40) * 100;
 		$$('#lbl_proceso').html("Progreso: "+progreso+"%")
 		Lungo.Element.progress('#progress-normal', progreso, true);

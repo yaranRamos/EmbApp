@@ -31,16 +31,40 @@
                     <p>Ingresa tus datos para empezar a utilizar EmbApp</p>
                     <br>    
                     <fieldset class="radius">
-                        <p>¿Cual es tu nombre?</p>
+                        <p>¿Cuál es tu nombre?</p>
                         <input id="nombre" type="text" class="border">
                     </fieldset>
                     <br>
                     <fieldset class="radius">
-                        <p>¿Cuando fue el primer dia de tu ultimo periodo menstrual?</p>
+                        <p>¿Cuándo fue el primer día de tu último periodo menstrual?</p>
+                        <div style="width:30%; float:left;">
+                            <select class="custom border" id="ano_fecha">
+                                <option value="">Año</option>
+                                <option value="2014">2014</option>
+                            </select>
+                        </div>
+
+                        <div style="width:30%; float:left; margin-right:10px;">
+                            <select class="custom border" id="mes_fecha">
+                                <option value="">Mes</option>
+                                <option value="01">Enero</option>
+                                <option value="02">Febrero</option>
+                                <option value="03">Marzo</option>
+                                <option value="04">Abril</option>
+                                <option value="05">Mayo</option>
+                                <option value="06">Junio</option>
+                                <option value="07">Julio</option>
+                                <option value="08">Agosto</option>
+                                <option value="09">Septiembre</option>
+                                <option value="10">Octubre</option>
+                                <option value="11">Noviembre</option>
+                                <option value="12">Diciembre</option>
+                            </select>
+                        </div>
                         <div style="width:30%; float:left; margin-right:10px;">
                             <select class="custom border" id="dia_fecha">
                                 <option value="">Día</option>
-                                <option value="01">01</option>
+                                <!-- <option value="01">01</option>
                                 <option value="02">02</option>
                                 <option value="03">03</option>
                                 <option value="04">04</option>
@@ -70,30 +94,7 @@
                                 <option value="28">28</option>
                                 <option value="29">29</option>
                                 <option value="30">30</option>
-                                <option value="31">31</option>
-                            </select>
-                        </div>
-                        <div style="width:30%; float:left; margin-right:10px;">
-                            <select class="custom border" id="mes_fecha">
-                                <option value="">Mes</option>
-                                <option value="01">Enero</option>
-                                <option value="02">Febrero</option>
-                                <option value="03">Marzo</option>
-                                <option value="04">Abril</option>
-                                <option value="05">Mayo</option>
-                                <option value="06">Junio</option>
-                                <option value="07">Julio</option>
-                                <option value="08">Agosto</option>
-                                <option value="09">Septiembre</option>
-                                <option value="10">Octubre</option>
-                                <option value="11">Noviembre</option>
-                                <option value="12">Diciembre</option>
-                            </select>
-                        </div>
-                        <div style="width:30%; float:left;">
-                            <select class="custom border" id="ano_fecha">
-                                <option value="">Año</option>
-                                <option value="2014">2014</option>
+                                <option value="31">31</option> -->
                             </select>
                         </div>
                     </fieldset>
@@ -354,7 +355,7 @@
                     </fieldset>
                     <br>
                     <fieldset class="radius">
-                        <p>Descripcion</p>
+                        <p>Descripción</p>
                         <input  type="text" class="border" id="descripcion_modificar_cita">
                     </fieldset>
                     <br>
