@@ -10,9 +10,10 @@
 		var diaAproximado = parseInt(diaUsuario) + 7;
 		var mesAproximado = parseInt(mesUsuario) - 3;
 		var anoAproximado = anoUsuario;
+		var hora = fechaActual.getHours()+":"+fechaActual.getMinutes();
 		var mes = "";
-		//alert(mesActual+" / "+mesUsuario);
 		var semanasAproximadas = (parseInt(mesActual) - parseInt(mesUsuario)) * 4;
+		var meses_feto = parseInt(mesActual) - parseInt(mesUsuario);
 		if(diaAproximado > 30){
 			diaAproximado = parseInt(diaAproximado) - 30;
 		}
@@ -48,13 +49,32 @@
 			mes = "Diciembre";
 		}
 		var fechaAproximada = diaAproximado+"/"+mes+"/"+anoAproximado;
-		$$('#bienvenido').html("Bienvenida "+localStorage.getItem("nombre")+" tú bebe tiene aproximadamente "+semanasAproximadas+" semanas, y la fecha de parto aproximada es: <b>"+fechaAproximada+"</b>");
+		$$('#bienvenido').html("Bienvenida "+localStorage.getItem("nombre")+" tu bebe tiene aproximadamente "+semanasAproximadas+" semanas, y la fecha de parto aproximada es: <b>"+fechaAproximada+"</b>");
+		if (meses_feto == 0) {
+			$$('#img_feto').attr('src', 'media/fetos/feto1.png');
+		} else if (meses_feto == 1) {
+			$$('#img_feto').attr('src', 'media/fetos/feto1.png');
+		} else if (meses_feto == 2) {
+			$$('#img_feto').attr('src', 'media/fetos/feto2.png');
+		} else if (meses_feto == 3) {
+			$$('#img_feto').attr('src', 'media/fetos/feto3.png');
+		} else if (meses_feto == 4) {
+			$$('#img_feto').attr('src', 'media/fetos/feto4.png');
+		} else if (meses_feto == 5) {
+			$$('#img_feto').attr('src', 'media/fetos/feto5.png');
+		} else if (meses_feto == 6) {
+			$$('#img_feto').attr('src', 'media/fetos/feto6.png');
+		} else if (meses_feto == 7) {
+			$$('#img_feto').attr('src', 'media/fetos/feto7.png');
+		} else if (meses_feto == 8) {
+			$$('#img_feto').attr('src', 'media/fetos/feto8.png');
+		} else if (meses_feto == 9) {
+			$$('#img_feto').attr('src', 'media/fetos/feto9.png');
+		}
+
 		var progreso = (semanasAproximadas / 40) * 100;
 		$$('#lbl_proceso').html("Progreso: "+progreso+"%")
 		Lungo.Element.progress('#progress-normal', progreso, true);
-		/*$$('#progress-normal').data('progress', progreso+"%");
-		$$('#bar_progress1').style('width', progreso+"%")
-		$$('#bar_progress2').style('width', progreso+"%")*/
 	}
 
 	function modificar_cita(id){
@@ -628,3 +648,89 @@
 			}
 		});
 	});
+
+function meses(){
+	//limpio los dias del select
+	document.getElementById("dia_fecha").options.length = 0;
+	var dias = 0;
+	var mes = $$("#mes_fecha").val();
+	var ano = $$("#ano_fecha").val();
+	var dia = $$("#dia_fecha");
+	var mes2 = $$("#mes_fecha");
+
+	dia.append('<option value ="">Día</option>');
+
+	if(!ano){
+		Lungo.Notification.error(
+				"Error",
+				"Ingresa el año",
+				"warning-sign",
+				2);
+		$$("#mes_fecha").val("Mes");
+		mes2.append('<option value ="">Mes</option>');
+			return;
+	}else{
+	// Obtenemos los dias del mes y el año
+		if((mes == 01)||(mes == 03)||(mes == 05)||(mes == 07)||(mes == 08)||(mes == 10)||(mes == 12)){
+       		dias=31;
+    	}
+   		else if((mes == 04)||(mes == 06)||(mes == 09)||(mes == 11)){
+       		dias=30;
+    	}
+    	else if(mes == 02)
+    	{
+        	if((ano % 4 == 0)&&(ano % 100 != 0)||(ano % 400 == 0)){
+           		 dias=29;
+        	}
+        	else{
+            	dias=28;
+        	}
+    	}
+    }
+    for (var i=1; i<=dias; i++) {
+    	dia.append('<option value = "'+ i + '">'+ i + '</option>');
+	}
+}
+
+function meses_nueva_cita(){
+	//limpio los dias del select
+	document.getElementById("dia_form_nueva_cita").options.length = 0;
+	var dias = 0;
+	var mes = $$("#mes_form_nueva_cita").val();
+	var ano = $$("#ano_form_nueva_cita").val();
+	var dia = $$("#dia_form_nueva_cita");
+	var mes2 = $$("#mes_form_nueva_cita");
+
+	dia.append('<option value ="">Día</option>');
+
+	if(!ano){
+		Lungo.Notification.error(
+				"Error",
+				"Ingresa el año",
+				"warning-sign",
+				2);
+		
+		mes2.append('<option value ="">Mes</option>');
+			return;
+	}else{
+	// Obtenemos los dias del mes y el año
+		if((mes == 01)||(mes == 03)||(mes == 05)||(mes == 07)||(mes == 08)||(mes == 10)||(mes == 12)){
+       		dias=31;
+    	}
+   		else if((mes == 04)||(mes == 06)||(mes == 09)||(mes == 11)){
+       		dias=30;
+    	}
+    	else if(mes == 02)
+    	{
+        	if((ano % 4 == 0)&&(ano % 100 != 0)||(ano % 400 == 0)){
+           		 dias=29;
+        	}
+        	else{
+            	dias=28;
+        	}
+    	}
+    }
+    for (var i=1; i<=dias; i++) {
+    	dia.append('<option value = "'+ i + '">'+ i + '</option>');
+	}
+}
