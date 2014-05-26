@@ -49,7 +49,7 @@
 			mes = "Diciembre";
 		}
 		var fechaAproximada = diaAproximado+"/"+mes+"/"+anoAproximado;
-		$$('#bienvenido').html("Bienvenida "+localStorage.getItem("nombre")+" tu bebe tiene aproximadamente "+semanasAproximadas+" semanas, y la fecha de parto aproximada es: <b>"+fechaAproximada+"</b>");
+		$$('#bienvenido').html("Bienvenida <b>"+localStorage.getItem("nombre")+"</b> tu bebe tiene aproximadamente <strong>"+semanasAproximadas+"</strong> semanas, y la fecha aproximada de parto es: <b>"+fechaAproximada+"</b>");
 		if (meses_feto == 0) {
 			$$('#img_feto').attr('src', 'media/fetos/feto1.png');
 		} else if (meses_feto == 1) {
@@ -656,7 +656,12 @@ function meses(){
 	var mes = $$("#mes_fecha").val();
 	var ano = $$("#ano_fecha").val();
 	var dia = $$("#dia_fecha");
-	var mes2 = $$("#mes_fecha");
+
+	// obtenemos el mes actual y comparamos con mes ingresado
+	var f = new Date();
+	var m = f.getMonth();// mes actual
+	var m = m+1; // este lo puse por que el mes me lo estaba regresando como abril
+	var a = f.getFullYear(); // año actual
 
 	dia.append('<option value ="">Día</option>');
 
@@ -666,15 +671,22 @@ function meses(){
 				"Ingresa el año",
 				"warning-sign",
 				2);
-		$$("#mes_fecha").val("Mes");
-		mes2.append('<option value ="">Mes</option>');
+		
 			return;
-	}else{
+	}else if(mes > m && a == ano){
+		Lungo.Notification.error(
+				"Error",
+				"El Mes ingresado no es válido",
+				"warning-sign",
+				2);
+			return;
+	}
+	else{
 	// Obtenemos los dias del mes y el año
-		if((mes == 01)||(mes == 03)||(mes == 05)||(mes == 07)||(mes == 08)||(mes == 10)||(mes == 12)){
+		if((mes == 1)||(mes == 3)||(mes == 5)||(mes == 7)||(mes == 8)||(mes == 10)||(mes == 12)){
        		dias=31;
     	}
-   		else if((mes == 04)||(mes == 06)||(mes == 09)||(mes == 11)){
+   		else if((mes == 4)||(mes == 6)||(mes == 9)||(mes == 11)){
        		dias=30;
     	}
     	else if(mes == 02)
@@ -709,8 +721,6 @@ function meses_nueva_cita(){
 				"Ingresa el año",
 				"warning-sign",
 				2);
-		
-		mes2.append('<option value ="">Mes</option>');
 			return;
 	}else{
 	// Obtenemos los dias del mes y el año
@@ -733,4 +743,23 @@ function meses_nueva_cita(){
     for (var i=1; i<=dias; i++) {
     	dia.append('<option value = "'+ i + '">'+ i + '</option>');
 	}
+}
+
+window.onload = function(){
+		var año = $$("#ano_fecha");
+		var anoCita = $$("#ano_form_nueva_cita");
+	    var fecha = new Date();
+        var ano = fecha.getFullYear();
+        var anoAnt = ano-1;
+        var all = 2;
+        // ciclo para llenar datos de configuracion
+        for(var i = 1; i<=all; i++){
+        	año.append('<option value = "'+ anoAnt +'">'+ anoAnt +'</option>');
+        	anoAnt++;
+        }
+        // ciclo para las citas
+        for(var i = 1; i<=all; i++){
+        	anoCita.append('<option value = "'+ ano +'">'+ano+'</option>');
+        	ano++;
+        }
 }
