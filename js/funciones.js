@@ -649,11 +649,6 @@
 		});
 	});
 
-<<<<<<< HEAD
-	$$('#muestra_calendario').tap(function() {
-		$$('#sandbox-container').show();
-	});
-=======
 function meses(){
 	//limpio los dias del select
 	document.getElementById("dia_fecha").options.length = 0;
@@ -937,4 +932,3 @@ window.onload = function(){
         	}
         }
 }
->>>>>>> 385e6097bbf1a8bf85f036f9608f927f1584de43
