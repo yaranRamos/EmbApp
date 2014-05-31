@@ -108,7 +108,7 @@ Lungo.ready(function(){
 		Lungo.Router.section('main');
 	} else {
 		Lungo.Router.section('login');
-		$("#ano_fecha").val("");
+		$$("#ano_fecha").val("");
 	}
 });
 
