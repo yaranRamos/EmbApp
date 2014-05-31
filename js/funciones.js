@@ -49,7 +49,7 @@
 			mes = "Diciembre";
 		}
 		var fechaAproximada = diaAproximado+"/"+mes+"/"+anoAproximado;
-		$$('#bienvenido').html("Bienvenida "+localStorage.getItem("nombre")+" tu bebe tiene aproximadamente "+semanasAproximadas+" semanas, y la fecha de parto aproximada es: <b>"+fechaAproximada+"</b>");
+		$$('#bienvenido').html("Bienvenida <b>"+localStorage.getItem("nombre")+"</b> tu bebe tiene aproximadamente <strong>"+semanasAproximadas+"</strong> semanas, y la fecha aproximada de parto es: <b>"+fechaAproximada+"</b>");
 		if (meses_feto == 0) {
 			$$('#img_feto').attr('src', 'media/fetos/feto1.png');
 		} else if (meses_feto == 1) {
@@ -71,6 +71,7 @@
 		} else if (meses_feto == 9) {
 			$$('#img_feto').attr('src', 'media/fetos/feto9.png');
 		}
+
 		var progreso = (semanasAproximadas / 40) * 100;
 		$$('#lbl_proceso').html("Progreso: "+progreso+"%")
 		Lungo.Element.progress('#progress-normal', progreso, true);
@@ -648,6 +649,292 @@
 		});
 	});
 
+<<<<<<< HEAD
 	$$('#muestra_calendario').tap(function() {
 		$$('#sandbox-container').show();
 	});
+=======
+function meses(){
+	//limpio los dias del select
+	document.getElementById("dia_fecha").options.length = 0;
+	var dias = 0;
+	var mes = $$("#mes_fecha").val();
+	var ano = $$("#ano_fecha").val();
+	var dia = $$("#dia_fecha");
+
+	// obtenemos el mes actual y comparamos con mes ingresado
+	var f = new Date();
+	var m = f.getMonth();// mes actual
+	var m = m+1; // este lo puse por que el mes me lo estaba regresando como abril
+	var a = f.getFullYear(); // año actual
+
+	dia.append('<option value ="">Día</option>');
+
+	if(!ano){
+		Lungo.Notification.error(
+				"Error",
+				"Ingresa el año",
+				"warning-sign",
+				2);
+				document.getElementById('mes_fecha').value = '0';//pongo en 0 los meses 
+			return;
+	}else if(mes > m && a == ano){// La fecha de ultimo dia de mestruacion no puede ser mayor a la fecha actual
+		Lungo.Notification.error(
+				"Error",
+				"El Mes ingresado no es válido",
+				"warning-sign",
+				2);
+			return;
+	}
+	else{
+	// Obtenemos los dias del mes y el año
+		if((mes == 1)||(mes == 3)||(mes == 5)||(mes == 7)||(mes == 8)||(mes == 10)||(mes == 12)){
+       		dias=31;
+    	}
+   		else if((mes == 4)||(mes == 6)||(mes == 9)||(mes == 11)){
+       		dias=30;
+    	}
+    	else if(mes == 02)
+    	{
+        	if((ano % 4 == 0)&&(ano % 100 != 0)||(ano % 400 == 0)){
+           		 dias=29;
+        	}
+        	else{
+            	dias=28;
+        	}
+    	}
+    }
+    for (var i=1; i<=dias; i++) {
+    	dia.append('<option value = "'+ i + '">'+ i + '</option>');
+	}
+}
+
+function meses_nueva_cita(){
+	//limpio los dias del select
+	document.getElementById("dia_form_nueva_cita").options.length = 0;
+	var dias = 0;
+	var mes = $$("#mes_form_nueva_cita").val();
+	var ano = $$("#ano_form_nueva_cita").val();
+	var dia = $$("#dia_form_nueva_cita");
+	var mes2 = $$("#mes_form_nueva_cita");
+
+	// obtenemos el mes actual y comparamos con mes y día ingresado
+	var f = new Date();
+	var m = f.getMonth();// mes actual
+	var m = m+1; // este lo puse por que el mes me lo estaba regresando como abril
+	var a = f.getFullYear(); // año actual
+
+	dia.append('<option value ="">Día</option>');
+
+	if(!ano){
+		Lungo.Notification.error(
+				"Error",
+				"Ingresa el año",
+				"warning-sign",
+				2);
+		document.getElementById("mes_form_nueva_cita").value = '';
+			return;
+	}else if(ano == a && mes < m){
+		Lungo.Notification.error(
+				"Error",
+				"El mes ingreado no puede ser menor al mes actual!",
+				"warning-sign",
+				3);
+	}else{
+	// Obtenemos los dias del mes y el año
+		if((mes == 01)||(mes == 03)||(mes == 05)||(mes == 07)||(mes == 08)||(mes == 10)||(mes == 12)){
+       		dias=31;
+    	}
+   		else if((mes == 04)||(mes == 06)||(mes == 09)||(mes == 11)){
+       		dias=30;
+    	}
+    	else if(mes == 02)
+    	{
+        	if((ano % 4 == 0)&&(ano % 100 != 0)||(ano % 400 == 0)){
+           		 dias=29;
+        	}
+        	else{
+            	dias=28;
+        	}
+    	}
+    }
+    for (var i=1; i<=dias; i++) {
+    	dia.append('<option value = "'+ i + '">'+ i + '</option>');
+	}
+}
+
+function verifica_dia(dia_form){
+	var dia_form = dia_form;
+	//document.getElementById("dia_form_nueva_cita").options.length = 0;
+	var dias = 0;
+	var mes = $$("#mes_form_nueva_cita").val();
+	var ano = $$("#ano_form_nueva_cita").val();
+	var dia = $$("#dia_form_nueva_cita");
+
+	// obtenemos el mes actual y comparamos con mes y día ingresado
+	var f = new Date();
+	var m = f.getMonth();// mes actual
+	var m = m+1; // este lo puse por que el mes me lo estaba regresando como abril
+	var a = f.getFullYear(); // año actual
+	var d = f.getDate(); // dia actual	
+
+	 if(ano == a && mes == m && dia_form < d){
+	 	Lungo.Notification.error(
+				"Error",
+				"El dia ingreado no puede ser menor al dia actual!",
+				"warning-sign",
+				3);
+	 	//volvemos a llenar los dias
+	 	// Obtenemos los dias del mes y el año
+		$$("#dia_form_nueva_cita").val("");
+	 	return;
+	 }
+}
+
+function get_dias_med(mes){
+	document.getElementById("dia_fecha_inicion_nuevo_medicamento").options.length = 0;
+	//Variables de mi seccion
+	ano = $$("#ano_fecha_inicion_nuevo_medicamento").val();
+	mes = mes;
+	dia = $$("#dia_fecha_inicion_nuevo_medicamento");
+
+	//Obtengo fechas actuales
+	var f = new Date();
+	var m = f.getMonth();// mes actual
+	var m = m+1; // este lo puse por que el mes me lo estaba regresando como abril
+	var a = f.getFullYear(); // año actual
+	var d = f.getDate(); // dia actual
+
+	dia.append('<option value ="">Día</option>');
+
+	if(!ano){
+		Lungo.Notification.error(
+				"Error",
+				"Ingresa el año!",
+				"warning-sign",
+				3);
+		$$("#mes_fecha_inicion_nuevo_medicamento").val("");
+		return;
+	}else if(mes < m && ano == a){
+		Lungo.Notification.error(
+				"Error",
+				"El mes ingreado no puede ser menor al mes actual!",
+				"warning-sign",
+				3);
+		$$("#mes_fecha_inicion_nuevo_medicamento").val("");
+		return;
+	}else{
+		// Obtenemos los dias del mes y el año
+		if((mes == 01)||(mes == 03)||(mes == 05)||(mes == 07)||(mes == 08)||(mes == 10)||(mes == 12)){
+       		dias=31;
+    	}
+   		else if((mes == 04)||(mes == 06)||(mes == 09)||(mes == 11)){
+       		dias=30;
+    	}
+    	else if(mes == 02)
+    	{
+        	if((ano % 4 == 0)&&(ano % 100 != 0)||(ano % 400 == 0)){
+           		 dias=29;
+        	}
+        	else{
+            	dias=28;
+        	}
+    	}
+	}
+
+	for (var i=1; i<=dias; i++) {
+		if(i < 10){
+		dia.append('<option value = "0'+ i + '">0'+ i + '</option>');
+		}else{
+    	dia.append('<option value = "'+ i + '">'+ i + '</option>');
+		}
+	}
+}
+
+function valida_dia_newMed(dia){
+	var dia_form = dia;
+	//document.getElementById("dia_form_nueva_cita").options.length = 0;
+	var dias = 0;
+	var mes = $$("#mes_fecha_inicion_nuevo_medicamento").val();
+	var ano = $$("#ano_fecha_inicion_nuevo_medicamento").val();
+	var dia = $$("#dia_fecha_inicion_nuevo_medicamento");
+
+	// obtenemos el mes actual y comparamos con mes y día ingresado
+	var f = new Date();
+	var m = f.getMonth();// mes actual
+	var m = m+1; // este lo puse por que el mes me lo estaba regresando como abril
+	var a = f.getFullYear(); // año actual
+	var d = f.getDate(); // dia actual	
+
+	 if(ano == a && mes == m && dia_form < d){
+	 	Lungo.Notification.error(
+				"Error",
+				"El dia ingreado no puede ser menor al dia actual!",
+				"warning-sign",
+				3);
+	 	//volvemos a llenar los dias
+	 	// Obtenemos los dias del mes y el año
+		$$("#dia_fecha_inicion_nuevo_medicamento").val("");
+	 	return;
+	 }
+}
+
+window.onload = function(){
+		var año = $$("#ano_fecha");
+		var anoCita = $$("#ano_form_nueva_cita");
+	    var fecha = new Date();
+        var ano = fecha.getFullYear();
+        var anoAnt = ano-1;
+        var all = 2;
+        var ano_nuevo_med = $$("#ano_fecha_inicion_nuevo_medicamento");
+
+        //MEDICAMENTOS
+        var ano_max = 2;
+        ano_med = ano;
+        for(i=1; i<=ano_max; i++){
+        	ano_nuevo_med.append('<option value="'+ ano_med +'">'+ ano_med +'</option>');
+        	ano_med++;
+        }
+
+
+        // ciclo para llenar datos de configuracion
+        for(var i = 1; i<=all; i++){
+        	año.append('<option value = "'+ anoAnt +'">'+ anoAnt +'</option>');
+        	anoAnt++;
+        }
+        // ciclo para las citas
+        for(var i = 1; i<=all; i++){
+        	anoCita.append('<option value = "'+ ano +'">'+ano+'</option>');
+        	ano++;
+        }
+
+        // Seccion de Hora
+        var hora = $$("#hora_form_nueva_cita");
+        var hora_medicamentos = $$("#hora_nuevo_medicamento");
+        var min = $$("#min_form_nueva_cita");
+        var min_medicamentos = $$("#min_nuevo_medicamento");
+        var hora_max = 12;
+        var min_max = 60;
+        //ciclo para llenar datos de la hora
+        for(var i = 1; i<=hora_max; i++){
+        	if(i<10){
+        	hora.append('<option value = "0'+ i +'">0'+i+'</option>');
+        	hora_medicamentos.append('<option value = "0'+ i +'">0'+i+'</option>');
+        	}else{
+        	hora.append('<option value = "'+ i +'">'+i+'</option>');
+        	hora_medicamentos.append('<option value = "'+ i +'">'+i+'</option>');
+        	}
+        }
+
+        // ciclo llena minutos
+        for(var m = 0; m <= min_max; m++){
+        	if(m < 10){
+        		min.append('<option value = "0'+ m +'">0'+m+'</option>');
+        		min_medicamentos.append('<option value = "0'+ m +'">0'+m+'</option>');
+        	}else{
+        		min.append('<option value = "'+ m +'">'+m+'</option>');
+        		min_medicamentos.append('<option value = "'+ m +'">'+m+'</option>');
+        	}
+        }
+}
+>>>>>>> 385e6097bbf1a8bf85f036f9608f927f1584de43
