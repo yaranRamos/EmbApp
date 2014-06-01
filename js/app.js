@@ -78,7 +78,7 @@ function onPause() {
 					var row = result.rows.item(i);
 					if(row.alarma == "true"){
 						if(row.fecha == fecha_actual){
-							if(row.hora == hora_actual){
+							if(row.hora_alarma == hora_actual){
 								window.plugin.notification.local.add({
 									id: row.id,
 									message: row.descripcion,

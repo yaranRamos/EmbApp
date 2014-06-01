@@ -263,6 +263,7 @@
 					localStorage["nombre"] = nombre;
 					localStorage["fecha"] = fecha;
 					localStorage["pin"] = pin;
+					localStorage["alarma"] = 15;
 					datos_pamtalla_inicial();
 				}, error_log);
 				Lungo.Router.section('main');// redirige a una seccion
@@ -308,6 +309,7 @@
 				$$('#dia_fecha_conf').val(fecha[0]);
 				$$('#mes_fecha_conf').val(fecha[1]);
 				$$('#ano_fecha_conf').val(fecha[2]);
+				$$('#tiempo_alarma_cita').val(localStorage["alarma"]);
 			});
 		}, error_log);
 		
@@ -339,6 +341,7 @@
 				tx.executeSql("UPDATE usuario SET nombre='"+nombre+"', fecha='"+fecha+"' WHERE nombre='"+localStorage["nombre"]+"';");
 				localStorage["nombre"] = nombre;
 				localStorage["fecha"] = fecha;
+				localStorage["alarma"] = $$('#tiempo_alarma_cita').val();
 				datos_pamtalla_inicial();
 			}, error_log);
 			Lungo.Router.section('main');
@@ -396,8 +399,38 @@
 			id = hr+min+dia+mes+ano;
 			fecha = dia+"/"+mes+"/"+ano;
 			hora = hr+":"+min+":"+horario;
+			var hora_alarma = "";
+			var min_alarma = "";
+			if(localStorage["alarma"] == 60) {
+				hr_alarma = parseInt(hr)-1;
+				if(hr_alarma >= 1 && hr_alarma <=9){
+					hr_alarma = "0"+hr_alarma;
+				}
+				if(hr_alarma == 0){
+					hr_alarma = 12;
+				}
+				hora_alarma = hr_alarma+":"+min+":"+horario;
+			} else{
+				min_alarma = parseInt(min)-localStorage["alarma"];
+				if(min_alarma < 0){
+					min_alarma = min_alarma + 60;
+					hr_alarma = parseInt(hr)-1;
+					if(hr_alarma >= 1 && hr_alarma <=9){
+						hr_alarma = "0"+hr_alarma;
+					}
+					if(hr_alarma == 0){
+						hr_alarma = 12;
+					}
+				} else {
+					hr_alarma = hr;
+				}
+				if(min_alarma >= 0 && min_alarma <= 9){
+					min_alarma = "0"+min_alarma;
+				}
+				hora_alarma = hr_alarma+":"+min_alarma+":"+horario;
+			}
 			db.transaction(function(tx){
-				tx.executeSql("INSERT INTO cita (id, etiqueta, fecha, hora, descripcion, alarma) VALUES ("+id+", '"+etiqueta+"', '"+fecha+"', '"+hora+"', '"+descripcion+"', '"+alarma+"');");
+				tx.executeSql("INSERT INTO cita (id, etiqueta, fecha, hora, descripcion, alarma, hora_alarma) VALUES ("+id+", '"+etiqueta+"', '"+fecha+"', '"+hora+"', '"+descripcion+"', '"+alarma+"', '"+hora_alarma+"');");
 			}, error_log);
 			Lungo.Notification.success(
 				"Datos guardados",
@@ -518,7 +551,7 @@
 				"warning-sign",
 				3);
 			return;
-		}else if(expRegNombre.test(nombre) || expRegNombre.test(dia_inicio) || expRegNombre.test(mes_inicio) || expRegNombre.test(ano_inicio) || expRegNombre.test(dia_final) || expRegNombre.test(mes_final) || expRegNombre.test(ano_final) || expRegNombre.test(hr) || expRegNombre.test(min) || expRegNombre.test(horario) || expRegNombre.test(frecuencia) || expRegNombre.test(docificacion)){
+		}else if(expRegNombre.test(nombre) || expRegNombre.test(dia_inicio) || expRegNombre.test(mes_inicio) || expRegNombre.test(ano_inicio) || expRegNombre.test(hr) || expRegNombre.test(min) || expRegNombre.test(horario) || expRegNombre.test(frecuencia) || expRegNombre.test(docificacion)){
 			Lungo.Notification.error(
 				"Error",
 				"Todos los campos son requeridos",
