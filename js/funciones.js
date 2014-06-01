@@ -12,8 +12,17 @@
 		var anoAproximado = anoUsuario;
 		var hora = fechaActual.getHours()+":"+fechaActual.getMinutes();
 		var mes = "";
-		var semanasAproximadas = (parseInt(mesActual) - parseInt(mesUsuario)) * 4;
+		var semanasAproximadas = 0;
 		var meses_feto = parseInt(mesActual) - parseInt(mesUsuario);
+		
+		if(anoUsuario < anoActual){
+			semanasAproximadas = (parseInt(mesActual) - parseInt(mesUsuario));
+			semanasAproximadas = semanasAproximadas + 12;
+			meses_feto = semanasAproximadas;
+			semanasAproximadas = parseInt(semanasAproximadas * 4.4);
+		} else {
+			semanasAproximadas = parseInt((parseInt(mesActual) - parseInt(mesUsuario)) * 4.4);
+		}
 		if(diaAproximado > 30){
 			diaAproximado = parseInt(diaAproximado) - 30;
 		}
@@ -72,9 +81,17 @@
 			$$('#img_feto').attr('src', 'media/fetos/feto9.png');
 		}
 
-		var progreso = (semanasAproximadas / 40) * 100;
-		$$('#lbl_proceso').html("Progreso: "+progreso+"%")
-		Lungo.Element.progress('#progress-normal', progreso, true);
+		if(semanasAproximadas >= 40){
+			$$('#bienvenido').html("Bienvenida <b>"+localStorage.getItem("nombre")+"</b> felicidades por tu bebe");
+			$$('#img_feto').attr('src', 'media/fetos/feto9.png');
+			var progreso = 100;
+			$$('#lbl_proceso').html("Progreso: "+progreso+"%")
+			Lungo.Element.progress('#progress-normal', progreso, true);
+		} else{
+			var progreso = (semanasAproximadas / 40) * 100;
+			$$('#lbl_proceso').html("Progreso: "+parseInt(progreso)+"%")
+			Lungo.Element.progress('#progress-normal', progreso, true);
+		}
 	}
 
 	function modificar_cita(id){
@@ -185,10 +202,10 @@
 				$$('#frecuencia_modificar_medicamento').val(result.rows.item(0).frecuencia);
 				$$('#docificacion_modificar_medicamento').val(result.rows.item(0).docificacion);
 				if(alarma == "true"){
-					$$('#alarma_modificar_cita').attr("checked",true);
+					$$('#alarma_modificar_medicamento').attr("checked",true);
 				}
 				if(alarma == "false"){
-					$$('#alarma_modificar_cita').removeAttr("checked");
+					$$('#alarma_modificar_medicamento').removeAttr("checked");
 				}
 				$$('#id_modificar_medicamento').val("'"+result.rows.item(0).id+"'");
 			});
@@ -226,7 +243,7 @@
 					} else{
 						cadena += "<li class='arrow selectable' onclick='modificar_medicamento("+row.id+")'><span class='icon circle-blank'></span>";
 					}
-				cadena += "<div class='on-right'>"+row.fecha_inicio+"</div><strong>"+row.medicamento+"</strong><small>Frecuencia: "+row.frecuencia+" Docificacion: "+row.docificacion+"</small></li>";
+				cadena += "<div class='on-right'>"+row.fecha_inicio+"</div><strong>"+row.medicamento+"</strong><small>Frecuencia: cada "+row.frecuencia+" hrs - Docificacion: "+row.docificacion+"</small></li>";
 				}
 				cadena += "</ul>";
 				$$('#lista_medicamentos').html(cadena);
