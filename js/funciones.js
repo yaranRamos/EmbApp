@@ -78,6 +78,38 @@
 	}
 
 	function modificar_cita(id){
+		// Cargamos los dias 
+		// -- DIAS --
+		var dia_mod_cita = $$("#dia_modificar_cita");
+        for(i=1; i<=31; i++){
+        	if(i<10){
+        	dia_mod_cita.append('<option value ="0'+i+'">0'+i+'</option>');
+        	}else{
+        	dia_mod_cita.append('<option value ="'+i+'">'+i+'</option>');
+        	}
+        }
+        // cargamos las horas
+        // -- HORAS --
+        var hora_mod_cita = $$("#hora_modificar_cita");
+        for(i=1;i<=12;i++){
+        	if(i<10){
+        	hora_mod_cita.append('<option value ="0'+i+'">0'+i+'</option>');
+        	}else{
+        	hora_mod_cita.append('<option value ="'+i+'">'+i+'</option>');	
+        	}
+        }
+
+        // cargamos los minutos
+        // -- MINUTOS --
+        var minuto_mod_cita = $$("#min_modificar_cita");
+        for(i=0;i<=60;i++){
+        	if(i<10){
+        		minuto_mod_cita.append('<option value ="0'+i+'">0'+i+'</option>');
+        	}else{
+        		minuto_mod_cita.append('<option value ="'+i+'">'+i+'</option>');
+        	}
+        }
+        // Realizamos la consulta
 		db.transaction(function(tx){
 			tx.executeSql("SELECT * FROM cita WHERE id='"+id+"';", [], function(tx, result){
 				var fecha = result.rows.item(0).fecha.split("/");
@@ -104,6 +136,36 @@
 	}
 
 	function modificar_medicamento(id){
+       // cargamos los dias
+        var mod_dia_med = $$('#diaInicio_modificar_medicamento');
+        for(i=1; i<=31; i++){
+        	if(i<10){
+        	mod_dia_med.append('<option value = "0'+i+'">0'+i+'</option>');
+        	}else{
+        	mod_dia_med.append('<option value = "'+i+'">'+i+'</option>');
+        	}
+        }
+
+        // cargamos las horas 
+        var mod_horas_med = $$("#hora_modificar_medicamento");
+        for(i=1; i<=12;i++){
+        	if(i<10){
+        		mod_horas_med.append('<option value="0'+i+'">0'+i+'</option>');
+        	}else{
+        		mod_horas_med.append('<option value="'+i+'">'+i+'</option>');
+        	}
+        }
+
+        // cargamos los minutos
+        var mod_min_med = $$("#min_modificar_medicamento");
+        for(i=0;i<=60;i++){
+        	if(i<10){
+        		mod_min_med.append('<option value="0'+i+'">0'+i+'</option>');
+        	}else{
+        		mod_min_med.append('<option value= "'+i+'">'+i+'</option>');
+        	}
+        }
+
 		db.transaction(function(tx){
 			tx.executeSql("SELECT * FROM medicamento WHERE id='"+id+"';", [], function(tx, result){
 				var fecha_inicio = result.rows.item(0).fecha_inicio.split("/");
@@ -440,16 +502,16 @@
 		var dia_inicio = $$('#dia_fecha_inicion_nuevo_medicamento').val();
 		var mes_inicio = $$('#mes_fecha_inicion_nuevo_medicamento').val();
 		var ano_inicio = $$('#ano_fecha_inicion_nuevo_medicamento').val();
-		var dia_final = $$('#dia_fecha_final_nuevo_medicamento').val();
-		var mes_final = $$('#mes_fecha_final_nuevo_medicamento').val();
-		var ano_final = $$('#ano_fecha_final_nuevo_medicamento').val();
+		//var dia_final = $$('#dia_fecha_final_nuevo_medicamento').val();
+		//var mes_final = $$('#mes_fecha_final_nuevo_medicamento').val();
+		//var ano_final = $$('#ano_fecha_final_nuevo_medicamento').val();
 		var hr = $$('#hora_nuevo_medicamento').val();
 		var min = $$('#min_nuevo_medicamento').val();
 		var horario = $$('#horario_nuevo_medicamento').val();
 		var frecuencia = $$('#frecuencia_nuevo_medicamento').val();
 		var docificacion = $$('#docificacion_nuevo_medicamento').val();
 		var alarma = $$('#alarma_nuevo_medicamento')[0].checked;
-		if (nombre == "" || dia_inicio == "" || mes_inicio == "" || ano_inicio == "" || dia_final == "" || mes_final == "" || ano_final == "" || hr == "" || min == "" || horario == "" || frecuencia == "" || docificacion == "") {
+		if (nombre == "" || dia_inicio == "" || mes_inicio == "" || ano_inicio == "" || /*dia_final == "" || mes_final == "" || ano_final == "" ||*/ hr == "" || min == "" || horario == "" || frecuencia == "" || docificacion == "") {
 			Lungo.Notification.error(
 				"Error",
 				"Todos los datos son requeridos",
@@ -466,14 +528,14 @@
 		} else {
 			var id;
 			var fecha_inicio;
-			var fecha_final;
+			//var fecha_final;
 			var hora;
 			id = hr+min+dia_inicio+mes_inicio+ano_inicio;
 			fecha_inicio = dia_inicio+"/"+mes_inicio+"/"+ano_inicio;
-			fecha_final = dia_final+"/"+mes_final+"/"+ano_final;
+			//fecha_final = dia_final+"/"+mes_final+"/"+ano_final;
 			hora = hr+":"+min+":"+horario;
 			db.transaction(function(tx){
-				tx.executeSql("INSERT INTO medicamento (id, medicamento, fecha_inicio, fecha_final, hora_ingesta, frecuencia, docificacion, alarma) VALUES ("+id+", '"+nombre+"', '"+fecha_inicio+"', '"+fecha_final+"', '"+hora+"', '"+frecuencia+"', '"+docificacion+"', '"+alarma+"');");
+				tx.executeSql("INSERT INTO medicamento (id, medicamento, fecha_inicio, hora_ingesta, frecuencia, docificacion, alarma) VALUES ("+id+", '"+nombre+"', '"+fecha_inicio+"', '"+fecha_final+"', '"+hora+"', '"+frecuencia+"', '"+docificacion+"', '"+alarma+"');");
 			}, error_log);
 			Lungo.Notification.success(
 				"Datos guardados",
@@ -490,16 +552,16 @@
 		var dia_inicio = $$('#diaInicio_modificar_medicamento').val();
 		var mes_inicio = $$('#mesInicia_modificar_medicamento').val();
 		var ano_inicio = $$('#anoInicia_modificar_medicamento').val();
-		var dia_final = $$('#diaFinal_modificar_medicamento').val();
+		/*var dia_final = $$('#diaFinal_modificar_medicamento').val();
 		var mes_final = $$('#mesFinal_modificar_medicamento').val();
-		var ano_final = $$('#anoFinal_modificar_medicamento').val();
+		var ano_final = $$('#anoFinal_modificar_medicamento').val();*/
 		var hr = $$('#hora_modificar_medicamento').val();
 		var min = $$('#min_modificar_medicamento').val();
 		var horario = $$('#horario_modificar_medicamento').val();
 		var frecuencia = $$('#frecuencia_modificar_medicamento').val();
 		var docificacion = $$('#docificacion_modificar_medicamento').val();
 		var alarma = $$('#alarma_modificar_medicamento')[0].checked;
-		if (nombre == "" || dia_inicio == "" || mes_inicio == "" || ano_inicio == "" || dia_final == "" || mes_final == "" || ano_final == "" || hr == "" || min == "" || horario == "" || frecuencia == "" || docificacion == "") {
+		if (nombre == "" || dia_inicio == "" || mes_inicio == "" || ano_inicio == "" || /*dia_final == "" || mes_final == "" || ano_final == "" ||*/ hr == "" || min == "" || horario == "" || frecuencia == "" || docificacion == "") {
 			Lungo.Notification.error(
 				"Error",
 				"Todos los datos son requeridos",
@@ -516,14 +578,14 @@
 		} else {
 			var id;
 			var fecha_inicio;
-			var fecha_final;
+			//var fecha_final;
 			var hora;
 			id = hr+min+dia_inicio+mes_inicio+ano_inicio;
 			fecha_inicio = dia_inicio+"/"+mes_inicio+"/"+ano_inicio;
-			fecha_final = dia_final+"/"+mes_final+"/"+ano_final;
+			//fecha_final = dia_final+"/"+mes_final+"/"+ano_final;
 			hora = hr+":"+min+":"+horario;
 			db.transaction(function(tx){
-				tx.executeSql("UPDATE medicamento SET medicamento='"+nombre+"', fecha_inicio='"+fecha_inicio+"', fecha_final='"+fecha_final+"', hora_ingesta='"+hora+"', frecuencia='"+frecuencia+"', docificacion='"+docificacion+"', alarma='"+alarma+"' WHERE id="+$$('#id_modificar_medicamento').val()+";");
+				tx.executeSql("UPDATE medicamento SET medicamento='"+nombre+"', fecha_inicio='"+fecha_inicio+"', hora_ingesta='"+hora+"', frecuencia='"+frecuencia+"', docificacion='"+docificacion+"', alarma='"+alarma+"' WHERE id="+$$('#id_modificar_medicamento').val()+";");
 			}, error_log);
 			Lungo.Notification.success(
 				"Datos guardados",
@@ -727,7 +789,7 @@ function meses_nueva_cita(){
 				"Ingresa el año",
 				"warning-sign",
 				2);
-		document.getElementById("mes_form_nueva_cita").value = '';
+			$$("#mes_form_nueva_cita").val("");
 			return;
 	}else if(ano == a && mes < m){
 		Lungo.Notification.error(
@@ -735,6 +797,8 @@ function meses_nueva_cita(){
 				"El mes ingreado no puede ser menor al mes actual!",
 				"warning-sign",
 				3);
+		$$("#mes_form_nueva_cita").val("");
+		return;
 	}else{
 	// Obtenemos los dias del mes y el año
 		if((mes == 01)||(mes == 03)||(mes == 05)||(mes == 07)||(mes == 08)||(mes == 10)||(mes == 12)){
@@ -846,6 +910,58 @@ function get_dias_med(mes){
 	}
 }
 
+ function update_mes_conf(mes){
+	document.getElementById("dia_fecha_conf").options.length = 0;
+	//Variables de mi seccion
+	ano = $$("#ano_fecha_conf").val();
+	mes = mes;
+	dia = $$("#dia_fecha_conf");
+
+	//Obtengo fechas actuales
+	var f = new Date();
+	var m = f.getMonth();// mes actual
+	var m = m+1; // este lo puse por que el mes me lo estaba regresando como abril
+	var a = f.getFullYear(); // año actual
+	var d = f.getDate(); // dia actual
+
+	dia.append('<option value ="">Día</option>');
+
+	if(!ano){
+		Lungo.Notification.error(
+				"Error",
+				"Ingresa el año!",
+				"warning-sign",
+				3);
+		$$("#mes_fecha_conf").val("");
+		return;
+	}else{
+		// Obtenemos los dias del mes y el año
+		if((mes == 01)||(mes == 03)||(mes == 05)||(mes == 07)||(mes == 08)||(mes == 10)||(mes == 12)){
+       		dias=31;
+    	}
+   		else if((mes == 04)||(mes == 06)||(mes == 09)||(mes == 11)){
+       		dias=30;
+    	}
+    	else if(mes == 02)
+    	{
+        	if((ano % 4 == 0)&&(ano % 100 != 0)||(ano % 400 == 0)){
+           		 dias=29;
+        	}
+        	else{
+            	dias=28;
+        	}
+    	}
+	}
+
+	for (var i=1; i<=dias; i++) {
+		if(i < 10){
+		dia.append('<option value = "0'+ i + '">0'+ i + '</option>');
+		}else{
+    	dia.append('<option value = "'+ i + '">'+ i + '</option>');
+		}
+	}
+}
+
 function valida_dia_newMed(dia){
 	var dia_form = dia;
 	//document.getElementById("dia_form_nueva_cita").options.length = 0;
@@ -874,6 +990,154 @@ function valida_dia_newMed(dia){
 	 }
 }
 
+function update_cita_dia(mes){
+	document.getElementById("dia_modificar_cita").options.length = 0;
+	//Variables de mi seccion
+	ano = $$("#ano_modificar_cita").val();
+	mes = mes;
+	dia = $$("#dia_modificar_cita");
+
+	//Obtengo fechas actuales
+	var f = new Date();
+	var m = f.getMonth();// mes actual
+	var m = m+1; // este lo puse por que el mes me lo estaba regresando como abril
+	var a = f.getFullYear(); // año actual
+	var d = f.getDate(); // dia actual
+
+	dia.append('<option value ="">Día</option>');
+
+	if(!ano){
+		Lungo.Notification.error(
+				"Error",
+				"Ingresa el año!",
+				"warning-sign",
+				3);
+		$$("#mes_fecha_inicion_nuevo_medicamento").val("");
+		return;
+	}else if(mes < m && ano == a){
+		Lungo.Notification.error(
+				"Error",
+				"El mes ingreado no puede ser menor al mes actual!",
+				"warning-sign",
+				3);
+		$$("#mes_fecha_inicion_nuevo_medicamento").val("");
+		return;
+	}else{
+		// Obtenemos los dias del mes y el año
+		if((mes == 01)||(mes == 03)||(mes == 05)||(mes == 07)||(mes == 08)||(mes == 10)||(mes == 12)){
+       		dias=31;
+    	}
+   		else if((mes == 04)||(mes == 06)||(mes == 09)||(mes == 11)){
+       		dias=30;
+    	}
+    	else if(mes == 02)
+    	{
+        	if((ano % 4 == 0)&&(ano % 100 != 0)||(ano % 400 == 0)){
+           		 dias=29;
+        	}
+        	else{
+            	dias=28;
+        	}
+    	}
+	}
+
+	for (var i=1; i<=dias; i++) {
+		if(i < 10){
+		dia.append('<option value = "0'+ i + '">0'+ i + '</option>');
+		}else{
+    	dia.append('<option value = "'+ i + '">'+ i + '</option>');
+		}
+	}
+}
+
+function update_fecha_med(mes){
+	document.getElementById("diaInicio_modificar_medicamento").options.length = 0;
+	//Variables de mi seccion
+	ano = $$("#anoInicia_modificar_medicamento").val();
+	mes = mes;
+	dia = $$("#diaInicio_modificar_medicamento");
+
+	//Obtengo fechas actuales
+	var f = new Date();
+	var m = f.getMonth();// mes actual
+	var m = m+1; // este lo puse por que el mes me lo estaba regresando como abril
+	var a = f.getFullYear(); // año actual
+	var d = f.getDate(); // dia actual
+
+	dia.append('<option value ="">Día</option>');
+
+	if(!ano){
+		Lungo.Notification.error(
+				"Error",
+				"Ingresa el año!",
+				"warning-sign",
+				3);
+		$$("#mes_fecha_inicion_nuevo_medicamento").val("");
+		return;
+	}else if(mes < m && ano == a){
+		Lungo.Notification.error(
+				"Error",
+				"El mes ingreado no puede ser menor al mes actual!",
+				"warning-sign",
+				3);
+		$$("#mes_fecha_inicion_nuevo_medicamento").val("");
+		return;
+	}else{
+		// Obtenemos los dias del mes y el año
+		if((mes == 01)||(mes == 03)||(mes == 05)||(mes == 07)||(mes == 08)||(mes == 10)||(mes == 12)){
+       		dias=31;
+    	}
+   		else if((mes == 04)||(mes == 06)||(mes == 09)||(mes == 11)){
+       		dias=30;
+    	}
+    	else if(mes == 02)
+    	{
+        	if((ano % 4 == 0)&&(ano % 100 != 0)||(ano % 400 == 0)){
+           		 dias=29;
+        	}
+        	else{
+            	dias=28;
+        	}
+    	}
+	}
+
+	for (var i=1; i<=dias; i++) {
+		if(i < 10){
+		dia.append('<option value = "0'+ i + '">0'+ i + '</option>');
+		}else{
+    	dia.append('<option value = "'+ i + '">'+ i + '</option>');
+		}
+	}
+}
+
+function update_dia_med(dia){
+	var dia_form = dia;
+	//document.getElementById("dia_form_nueva_cita").options.length = 0;
+	var dias = 0;
+	var mes = $$("#mesInicia_modificar_medicamento").val();
+	var ano = $$("#anoInicia_modificar_medicamento").val();
+	var dia = $$("#diaInicio_modificar_medicamento");
+
+	// obtenemos el mes actual y comparamos con mes y día ingresado
+	var f = new Date();
+	var m = f.getMonth();// mes actual
+	var m = m+1; // este lo puse por que el mes me lo estaba regresando como abril
+	var a = f.getFullYear(); // año actual
+	var d = f.getDate(); // dia actual
+
+	 if(ano == a && mes == m && dia_form < d){
+	 	Lungo.Notification.error(
+				"Error",
+				"El dia ingreado no puede ser menor al dia actual!",
+				"warning-sign",
+				3);
+	 	//volvemos a llenar los dias
+	 	// Obtenemos los dias del mes y el año
+		$$("#diaInicio_modificar_medicamento").val("");
+	 	return;
+	 }
+}
+
 window.onload = function(){
 		var año = $$("#ano_fecha");
 		var anoCita = $$("#ano_form_nueva_cita");
@@ -882,15 +1146,48 @@ window.onload = function(){
         var anoAnt = ano-1;
         var all = 2;
         var ano_nuevo_med = $$("#ano_fecha_inicion_nuevo_medicamento");
+        var ano_mod_cita = $$("#ano_modificar_cita");
+        
+
+        //CITAS
+        // -- AÑO --
+        for(i = 1; i<=2; i++){
+        	ano_mod_cita.append('<option value="'+ano+'">'+ano+'</option>');
+        	ano++;
+        }
+
+        // Cargamos los años
+		var mod_año_med = $$("#anoInicia_modificar_medicamento");
+		var g = new Date();
+		var b = g.getFullYear(); // año actual
+		var ano_max = 2;
+
+        for(i=1; i<=ano_max; i++){
+        	mod_año_med.append('<option value ="'+b+'">'+b+'</option>');
+        	b++;
+        }
+
 
         //MEDICAMENTOS
         var ano_max = 2;
-        ano_med = ano;
+        var ano_med = fecha.getFullYear();
         for(i=1; i<=ano_max; i++){
         	ano_nuevo_med.append('<option value="'+ ano_med +'">'+ ano_med +'</option>');
         	ano_med++;
         }
 
+        //CONFIGURACION 
+        // Cargamos los años
+		var h = new Date();
+		var c = h.getFullYear(); // año actual
+		var ano_max = 2;
+        var ano_conf = $$("#ano_fecha_conf");
+        var ano_ant_conf = c-1;
+
+        for(i=1;i<=ano_max;i++){
+        	ano_conf.append('<option value="'+ ano_ant_conf +'">'+ ano_ant_conf +'</option>');
+        	ano_ant_conf++;
+        }
 
         // ciclo para llenar datos de configuracion
         for(var i = 1; i<=all; i++){
@@ -898,9 +1195,10 @@ window.onload = function(){
         	anoAnt++;
         }
         // ciclo para las citas
+        var ano_cita = fecha.getFullYear();
         for(var i = 1; i<=all; i++){
-        	anoCita.append('<option value = "'+ ano +'">'+ano+'</option>');
-        	ano++;
+        	anoCita.append('<option value = "'+ ano_cita +'">'+ano_cita+'</option>');
+        	ano_cita++;
         }
 
         // Seccion de Hora

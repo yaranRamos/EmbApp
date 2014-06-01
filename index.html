@@ -169,44 +169,15 @@
                     <br>
                     <fieldset class="radius">
                         <p>Fecha de la cita</p>
-                        <div style="width:30%; float:left; margin-right:10px;">
-                            <select class="custom border" id="dia_modificar_cita">
-                                <option value="">Día</option>
-                                <option value="01">01</option>
-                                <option value="02">02</option>
-                                <option value="03">03</option>
-                                <option value="04">04</option>
-                                <option value="05">05</option>
-                                <option value="06">06</option>
-                                <option value="07">07</option>
-                                <option value="08">08</option>
-                                <option value="09">09</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
-                                <option value="16">16</option>
-                                <option value="17">17</option>
-                                <option value="18">18</option>
-                                <option value="19">19</option>
-                                <option value="20">20</option>
-                                <option value="21">21</option>
-                                <option value="22">22</option>
-                                <option value="23">23</option>
-                                <option value="24">24</option>
-                                <option value="25">25</option>
-                                <option value="26">26</option>
-                                <option value="27">27</option>
-                                <option value="28">28</option>
-                                <option value="29">29</option>
-                                <option value="30">30</option>
-                                <option value="31">31</option>
+                        
+                         <div style="width:30%; float:left; margin-right:10px;">
+                            <select class="custom border" id="ano_modificar_cita">
+                                <option value="">Año</option>
                             </select>
                         </div>
+
                         <div style="width:30%; float:left; margin-right:10px;">
-                            <select class="custom border" id="mes_modificar_cita">
+                            <select class="custom border" id="mes_modificar_cita" onchange="update_cita_dia(this.value)">
                                 <option value="">Mes</option>
                                 <option value="01">Enero</option>
                                 <option value="02">Febrero</option>
@@ -222,10 +193,10 @@
                                 <option value="12">Diciembre</option>
                             </select>
                         </div>
+
                         <div style="width:30%; float:left;">
-                            <select class="custom border" id="ano_modificar_cita">
-                                <option value="">Año</option>
-                                <option value="2014">2014</option>
+                            <select class="custom border" id="dia_modificar_cita">
+                                <option value="">Día</option>
                             </select>
                         </div>
                     </fieldset>
@@ -235,84 +206,11 @@
                         <div style="width:30%; float:left; margin-right:10px;">
                             <select class="custom border" id="hora_modificar_cita">
                                 <option value="">Hr</option>
-                                <option value="01">01</option>
-                                <option value="02">02</option>
-                                <option value="03">03</option>
-                                <option value="04">04</option>
-                                <option value="05">05</option>
-                                <option value="06">06</option>
-                                <option value="07">07</option>
-                                <option value="08">08</option>
-                                <option value="09">09</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
                             </select>
                         </div>
                         <div style="width:30%; float:left; margin-right:10px;">
                             <select class="custom border" id="min_modificar_cita">
                                 <option value="">Min</option>
-                                <option value="00">00</option>
-                                <option value="01">01</option>
-                                <option value="02">02</option>
-                                <option value="03">03</option>
-                                <option value="04">04</option>
-                                <option value="05">05</option>
-                                <option value="06">06</option>
-                                <option value="07">07</option>
-                                <option value="08">08</option>
-                                <option value="09">09</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
-                                <option value="16">16</option>
-                                <option value="17">17</option>
-                                <option value="18">18</option>
-                                <option value="19">19</option>
-                                <option value="20">20</option>
-                                <option value="21">21</option>
-                                <option value="22">22</option>
-                                <option value="23">23</option>
-                                <option value="24">24</option>
-                                <option value="25">25</option>
-                                <option value="26">26</option>
-                                <option value="27">27</option>
-                                <option value="28">28</option>
-                                <option value="29">29</option>
-                                <option value="30">30</option>
-                                <option value="31">31</option>
-                                <option value="32">32</option>
-                                <option value="33">33</option>
-                                <option value="35">34</option>
-                                <option value="35">35</option>
-                                <option value="36">36</option>
-                                <option value="37">37</option>
-                                <option value="38">38</option>
-                                <option value="39">39</option>
-                                <option value="40">40</option>
-                                <option value="41">41</option>
-                                <option value="42">42</option>
-                                <option value="43">43</option>
-                                <option value="44">44</option>
-                                <option value="45">45</option>
-                                <option value="46">46</option>
-                                <option value="47">47</option>
-                                <option value="48">48</option>
-                                <option value="49">49</option>
-                                <option value="50">50</option>
-                                <option value="51">51</option>
-                                <option value="52">52</option>
-                                <option value="53">53</option>
-                                <option value="54">54</option>
-                                <option value="55">55</option>
-                                <option value="56">55</option>
-                                <option value="57">57</option>
-                                <option value="58">58</option>
-                                <option value="59">59</option>
-                                <option value="60">60</option>
                             </select>
                         </div>
                         <div style="width:30%; float:left;">
@@ -471,107 +369,15 @@
                     <br>
                     <fieldset class="radius">
                         <p>Fecha Inicio</p>
-                        <div style="width:30%; float:left; margin-right:10px;">
-                            <select class="custom border" id="diaInicio_modificar_medicamento">
-                                <option value="">Día</option>
-                                <option value="01">01</option>
-                                <option value="02">02</option>
-                                <option value="03">03</option>
-                                <option value="04">04</option>
-                                <option value="05">05</option>
-                                <option value="06">06</option>
-                                <option value="07">07</option>
-                                <option value="08">08</option>
-                                <option value="09">09</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
-                                <option value="16">16</option>
-                                <option value="17">17</option>
-                                <option value="18">18</option>
-                                <option value="19">19</option>
-                                <option value="20">20</option>
-                                <option value="21">21</option>
-                                <option value="22">22</option>
-                                <option value="23">23</option>
-                                <option value="24">24</option>
-                                <option value="25">25</option>
-                                <option value="26">26</option>
-                                <option value="27">27</option>
-                                <option value="28">28</option>
-                                <option value="29">29</option>
-                                <option value="30">30</option>
-                                <option value="31">31</option>
-                            </select>
-                        </div>
-                        <div style="width:30%; float:left; margin-right:10px;">
-                            <select class="custom border" id="mesInicia_modificar_medicamento">
-                                <option value="">Mes</option>
-                                <option value="01">Enero</option>
-                                <option value="02">Febrero</option>
-                                <option value="03">Marzo</option>
-                                <option value="04">Abril</option>
-                                <option value="05">Mayo</option>
-                                <option value="06">Junio</option>
-                                <option value="07">Julio</option>
-                                <option value="08">Agosto</option>
-                                <option value="09">Septiembre</option>
-                                <option value="10">Octubre</option>
-                                <option value="11">Noviembre</option>
-                                <option value="12">Diciembre</option>
-                            </select>
-                        </div>
-                        <div style="width:30%; float:left;">
+                            
+                         <div style="width:30%; float:left; margin-right:10px;">
                             <select class="custom border" id="anoInicia_modificar_medicamento">
                                 <option value="">Año</option>
-                                <option value="2014">2014</option>
                             </select>
                         </div>
-                    </fieldset>
-                    <br>
-                    <fieldset class="radius">
-                        <p>Fecha Final</p>
-                        <div style="width:30%; float:left; margin-right:10px;">
-                            <select class="custom border" id="diaFinal_modificar_medicamento">
-                                <option value="">Día</option>
-                                <option value="01">01</option>
-                                <option value="02">02</option>
-                                <option value="03">03</option>
-                                <option value="04">04</option>
-                                <option value="05">05</option>
-                                <option value="06">06</option>
-                                <option value="07">07</option>
-                                <option value="08">08</option>
-                                <option value="09">09</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
-                                <option value="16">16</option>
-                                <option value="17">17</option>
-                                <option value="18">18</option>
-                                <option value="19">19</option>
-                                <option value="20">20</option>
-                                <option value="21">21</option>
-                                <option value="22">22</option>
-                                <option value="23">23</option>
-                                <option value="24">24</option>
-                                <option value="25">25</option>
-                                <option value="26">26</option>
-                                <option value="27">27</option>
-                                <option value="28">28</option>
-                                <option value="29">29</option>
-                                <option value="30">30</option>
-                                <option value="31">31</option>
-                            </select>
-                        </div>
-                        <div style="width:30%; float:left; margin-right:10px;">
-                            <select class="custom border" id="mesFinal_modificar_medicamento">
+
+                          <div style="width:30%; float:left; margin-right:10px;">
+                            <select class="custom border" id="mesInicia_modificar_medicamento" onchange="update_fecha_med(this.value)">
                                 <option value="">Mes</option>
                                 <option value="01">Enero</option>
                                 <option value="02">Febrero</option>
@@ -587,12 +393,13 @@
                                 <option value="12">Diciembre</option>
                             </select>
                         </div>
+
                         <div style="width:30%; float:left;">
-                            <select class="custom border" id="anoFinal_modificar_medicamento">
-                                <option value="">Año</option>
-                                <option value="2014">2014</option>
+                            <select class="custom border" id="diaInicio_modificar_medicamento" onchange="update_dia_med(this.value)">
+                                <option value="">Día</option>
                             </select>
                         </div>
+                       
                     </fieldset>
                     <br>
                     <fieldset class="radius">
@@ -600,84 +407,11 @@
                         <div style="width:30%; float:left; margin-right:10px;">
                             <select class="custom border" id="hora_modificar_medicamento">
                                 <option value="">Hr</option>
-                                <option value="01">01</option>
-                                <option value="02">02</option>
-                                <option value="03">03</option>
-                                <option value="04">04</option>
-                                <option value="05">05</option>
-                                <option value="06">06</option>
-                                <option value="07">07</option>
-                                <option value="08">08</option>
-                                <option value="09">09</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
                             </select>
                         </div>
                         <div style="width:30%; float:left; margin-right:10px;">
                             <select class="custom border" id="min_modificar_medicamento">
                                 <option value="">Min</option>
-                                <option value="00">00</option>
-                                <option value="01">01</option>
-                                <option value="02">02</option>
-                                <option value="03">03</option>
-                                <option value="04">04</option>
-                                <option value="05">05</option>
-                                <option value="06">06</option>
-                                <option value="07">07</option>
-                                <option value="08">08</option>
-                                <option value="09">09</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
-                                <option value="16">16</option>
-                                <option value="17">17</option>
-                                <option value="18">18</option>
-                                <option value="19">19</option>
-                                <option value="20">20</option>
-                                <option value="21">21</option>
-                                <option value="22">22</option>
-                                <option value="23">23</option>
-                                <option value="24">24</option>
-                                <option value="25">25</option>
-                                <option value="26">26</option>
-                                <option value="27">27</option>
-                                <option value="28">28</option>
-                                <option value="29">29</option>
-                                <option value="30">30</option>
-                                <option value="31">31</option>
-                                <option value="32">32</option>
-                                <option value="33">33</option>
-                                <option value="35">34</option>
-                                <option value="35">35</option>
-                                <option value="36">36</option>
-                                <option value="37">37</option>
-                                <option value="38">38</option>
-                                <option value="39">39</option>
-                                <option value="40">40</option>
-                                <option value="41">41</option>
-                                <option value="42">42</option>
-                                <option value="43">43</option>
-                                <option value="44">44</option>
-                                <option value="45">45</option>
-                                <option value="46">46</option>
-                                <option value="47">47</option>
-                                <option value="48">48</option>
-                                <option value="49">49</option>
-                                <option value="50">50</option>
-                                <option value="51">51</option>
-                                <option value="52">52</option>
-                                <option value="53">53</option>
-                                <option value="54">54</option>
-                                <option value="55">55</option>
-                                <option value="56">55</option>
-                                <option value="57">57</option>
-                                <option value="58">58</option>
-                                <option value="59">59</option>
-                                <option value="60">60</option>
                             </select>
                         </div>
                         <div style="width:30%; float:left;">
@@ -748,69 +482,6 @@
                          <div style="width:30%; float:left; margin-right:10px;">
                             <select class="custom border" id="mes_fecha_inicion_nuevo_medicamento" onchange="get_dias_med(this.value)">
                                 <option value="">Mes</option>
-                                <option value="1">Enero</option>
-                                <option value="2">Febrero</option>
-                                <option value="3">Marzo</option>
-                                <option value="4">Abril</option>
-                                <option value="5">Mayo</option>
-                                <option value="6">Junio</option>
-                                <option value="7">Julio</option>
-                                <option value="8">Agosto</option>
-                                <option value="9">Septiembre</option>
-                                <option value="10">Octubre</option>
-                                <option value="11">Noviembre</option>
-                                <option value="12">Diciembre</option>
-                            </select>
-                        </div>
-
-                        <div style="width:30%; float:left;">
-                            <select class="custom border" id="dia_fecha_inicion_nuevo_medicamento" onchange="valida_dia_newMed(this.value)">
-                                <option value="">Día</option>
-                            </select>
-                        </div>
-                    </fieldset>
-                    <br>
-                    <fieldset class="radius">
-                        <p>Fecha Final</p>
-                        <div style="width:30%; float:left;">
-                            <select class="custom border" id="dia_fecha_final_nuevo_medicamento">
-                                <option value="">Día</option>
-                                <option value="01">01</option>
-                                <option value="02">02</option>
-                                <option value="03">03</option>
-                                <option value="04">04</option>
-                                <option value="05">05</option>
-                                <option value="06">06</option>
-                                <option value="07">07</option>
-                                <option value="08">08</option>
-                                <option value="09">09</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
-                                <option value="16">16</option>
-                                <option value="17">17</option>
-                                <option value="18">18</option>
-                                <option value="19">19</option>
-                                <option value="20">20</option>
-                                <option value="21">21</option>
-                                <option value="22">22</option>
-                                <option value="23">23</option>
-                                <option value="24">24</option>
-                                <option value="25">25</option>
-                                <option value="26">26</option>
-                                <option value="27">27</option>
-                                <option value="28">28</option>
-                                <option value="29">29</option>
-                                <option value="30">30</option>
-                                <option value="31">31</option>
-                            </select>
-                        </div>
-                        <div style="width:30%; float:left; margin-right:10px;">
-                            <select class="custom border" id="mes_fecha_final_nuevo_medicamento">
-                                <option value="">Mes</option>
                                 <option value="01">Enero</option>
                                 <option value="02">Febrero</option>
                                 <option value="03">Marzo</option>
@@ -825,13 +496,14 @@
                                 <option value="12">Diciembre</option>
                             </select>
                         </div>
+
                         <div style="width:30%; float:left;">
-                            <select class="custom border" id="ano_fecha_final_nuevo_medicamento">
-                                <option value="">Año</option>
-                                <option value="2014">2014</option>
+                            <select class="custom border" id="dia_fecha_inicion_nuevo_medicamento" onchange="valida_dia_newMed(this.value)">
+                                <option value="">Día</option>
                             </select>
                         </div>
                     </fieldset>
+                    <br>
                     <br>
                     <fieldset class="radius">
                         <p>Hora de primer ingesta</p>
@@ -954,6 +626,30 @@
                     <fieldset class="radius">
                         <p>¿Cuando fue el primer dia de tu ultima periodo menstrual?</p>
                         <div style="width:30%; float:left; margin-right:10px;">
+                            <select class="custom border" id="ano_fecha_conf">
+                                <option value="">Año</option>
+                            </select>
+                        </div>
+                            
+                        <div style="width:30%; float:left; margin-right:10px;">
+                            <select class="custom border" id="mes_fecha_conf" onchange="update_mes_conf(this.value)">
+                                <option value="">Mes</option>
+                                <option value="1">Enero</option>
+                                <option value="2">Febrero</option>
+                                <option value="3">Marzo</option>
+                                <option value="4">Abril</option>
+                                <option value="5">Mayo</option>
+                                <option value="6">Junio</option>
+                                <option value="7">Julio</option>
+                                <option value="8">Agosto</option>
+                                <option value="9">Septiembre</option>
+                                <option value="10">Octubre</option>
+                                <option value="11">Noviembre</option>
+                                <option value="12">Diciembre</option>
+                            </select>
+                        </div>
+
+                        <div style="width:30%; float:left;">
                             <select class="custom border" id="dia_fecha_conf">
                                 <option value="">Dia</option>
                                 <option value="01">01</option>
@@ -989,29 +685,8 @@
                                 <option value="31">31</option>
                             </select>
                         </div>
-                        <div style="width:30%; float:left; margin-right:10px;">
-                            <select class="custom border" id="mes_fecha_conf">
-                                <option value="">Mes</option>
-                                <option value="01">Enero</option>
-                                <option value="02">Febrero</option>
-                                <option value="03">Marzo</option>
-                                <option value="04">Abril</option>
-                                <option value="05">Mayo</option>
-                                <option value="06">Junio</option>
-                                <option value="07">Julio</option>
-                                <option value="08">Agosto</option>
-                                <option value="09">Septiembre</option>
-                                <option value="10">Octubre</option>
-                                <option value="11">Noviembre</option>
-                                <option value="12">Diciembre</option>
-                            </select>
-                        </div>
-                        <div style="width:30%; float:left;">
-                            <select class="custom border" id="ano_fecha_conf">
-                                <option value="">Año</option>
-                                <option value="2014">2014</option>
-                            </select>
-                        </div>
+                        
+                        
                     </fieldset>
                         <br>
                         <br>
@@ -1026,7 +701,7 @@
             </article>
         </section><!-- SECCION CONFIGURACION -->
         
-        <section id="acerca" data-transition="slide">
+        <section id="acerca" data-transirtion="slide">
             <header data-title="Acerca de">
                 <nav>
                     <button data-icon="chevron-left" class="on-left" data-view-section="back"></button>
