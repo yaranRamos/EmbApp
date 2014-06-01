@@ -851,7 +851,11 @@ function meses_nueva_cita(){
     	}
     }
     for (var i=1; i<=dias; i++) {
-    	dia.append('<option value = "'+ i + '">'+ i + '</option>');
+    	if(i<10){
+    		dia.append('<option value = "0'+ i + '">0'+ i + '</option>');
+    	}else{
+    		dia.append('<option value = "'+ i + '">'+ i + '</option>');
+    	}
 	}
 }
 
