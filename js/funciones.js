@@ -169,16 +169,16 @@
 		db.transaction(function(tx){
 			tx.executeSql("SELECT * FROM medicamento WHERE id='"+id+"';", [], function(tx, result){
 				var fecha_inicio = result.rows.item(0).fecha_inicio.split("/");
-				var fecha_final = result.rows.item(0).fecha_final.split("/");
+				//var fecha_final = result.rows.item(0).fecha_final.split("/");
 				var hora = result.rows.item(0).hora_ingesta.split(":");
 				var alarma = result.rows.item(0).alarma;
 				$$('#medicamento_modificar_medicamento').val(result.rows.item(0).medicamento);
 				$$('#diaInicio_modificar_medicamento').val(fecha_inicio[0]);
 				$$('#mesInicia_modificar_medicamento').val(fecha_inicio[1]);
 				$$('#anoInicia_modificar_medicamento').val(fecha_inicio[2]);
-				$$('#diaFinal_modificar_medicamento').val(fecha_inicio[0]);
+				/*$$('#diaFinal_modificar_medicamento').val(fecha_inicio[0]);
 				$$('#mesFinal_modificar_medicamento').val(fecha_inicio[1]);
-				$$('#anoFinal_modificar_medicamento').val(fecha_inicio[2]);
+				$$('#anoFinal_modificar_medicamento').val(fecha_inicio[2]);*/
 				$$('#hora_modificar_medicamento').val(hora[0]);
 				$$('#min_modificar_medicamento').val(hora[1]);
 				$$('#horario_modificar_medicamento').val(hora[2]);
@@ -226,7 +226,7 @@
 					} else{
 						cadena += "<li class='arrow selectable' onclick='modificar_medicamento("+row.id+")'><span class='icon circle-blank'></span>";
 					}
-				cadena += "<div class='on-right'>"+row.fecha_final+"</div><strong>"+row.medicamento+"</strong><small>Frecuencia: "+row.frecuencia+" Docificacion: "+row.docificacion+"</small></li>";
+				cadena += "<div class='on-right'>"+row.fecha_inicio+"</div><strong>"+row.medicamento+"</strong><small>Frecuencia: "+row.frecuencia+" Docificacion: "+row.docificacion+"</small></li>";
 				}
 				cadena += "</ul>";
 				$$('#lista_medicamentos').html(cadena);
@@ -344,7 +344,55 @@
 				localStorage["alarma"] = $$('#tiempo_alarma_cita').val();
 				datos_pamtalla_inicial();
 			}, error_log);
-			Lungo.Router.section('main');
+			db.transaction(function(tx){
+				tx.executeSql("SELECT * FROM cita;", [], function(tx, result){
+					for(var i=0; i<result.rows.length; i++){
+						var row = result.rows.item(i);
+						var hora = row.hora.split(":");
+						var hora_alarma = "";
+						var min_alarma = "";
+						if(localStorage["alarma"] == 0){
+							hora_alarma = hora[0]+":"+hora[1]+":"+hora[2];
+						} else {
+							if(localStorage["alarma"] == 60) {
+								hr_alarma = parseInt(hora[0])-1;
+								if(hr_alarma >= 1 && hr_alarma <=9){
+									hr_alarma = "0"+hr_alarma;
+								}
+								if(hr_alarma == 0){
+									hr_alarma = 12;
+								}
+								hora_alarma = hr_alarma+":"+hora[1]+":"+hora[2];
+							} else{
+								min_alarma = parseInt(hora[1])-localStorage["alarma"];
+								if(min_alarma < 0){
+									min_alarma = min_alarma + 60;
+									hr_alarma = parseInt(hora[0])-1;
+									if(hr_alarma >= 1 && hr_alarma <=9){
+										hr_alarma = "0"+hr_alarma;
+									}
+									if(hr_alarma == 0){
+										hr_alarma = 12;
+									}
+								} else {
+									hr_alarma = hora[0];
+								}
+								if(min_alarma >= 0 && min_alarma <= 9){
+									min_alarma = "0"+min_alarma;
+								}
+								hora_alarma = hr_alarma+":"+min_alarma+":"+hora[2];
+							}
+						}
+						tx.executeSql("UPDATE cita SET hora_alarma='"+hora_alarma+"' WHERE id="+row.id+";");
+					}
+					Lungo.Notification.success(
+						"Datos guardados",
+						"Los datos se an guardado correctamente",
+						"check",
+						3);
+						});
+					Lungo.Router.section('main');
+			}, error_log);
 		}
 	});
 
@@ -401,19 +449,10 @@
 			hora = hr+":"+min+":"+horario;
 			var hora_alarma = "";
 			var min_alarma = "";
-			if(localStorage["alarma"] == 60) {
-				hr_alarma = parseInt(hr)-1;
-				if(hr_alarma >= 1 && hr_alarma <=9){
-					hr_alarma = "0"+hr_alarma;
-				}
-				if(hr_alarma == 0){
-					hr_alarma = 12;
-				}
-				hora_alarma = hr_alarma+":"+min+":"+horario;
-			} else{
-				min_alarma = parseInt(min)-localStorage["alarma"];
-				if(min_alarma < 0){
-					min_alarma = min_alarma + 60;
+			if(localStorage["alarma"] == 0){
+				hora_alarma = hora;
+			} else {
+				if(localStorage["alarma"] == 60) {
 					hr_alarma = parseInt(hr)-1;
 					if(hr_alarma >= 1 && hr_alarma <=9){
 						hr_alarma = "0"+hr_alarma;
@@ -421,13 +460,26 @@
 					if(hr_alarma == 0){
 						hr_alarma = 12;
 					}
-				} else {
-					hr_alarma = hr;
+					hora_alarma = hr_alarma+":"+min+":"+horario;
+				} else{
+					min_alarma = parseInt(min)-localStorage["alarma"];
+					if(min_alarma < 0){
+						min_alarma = min_alarma + 60;
+						hr_alarma = parseInt(hr)-1;
+						if(hr_alarma >= 1 && hr_alarma <=9){
+							hr_alarma = "0"+hr_alarma;
+						}
+						if(hr_alarma == 0){
+							hr_alarma = 12;
+						}
+					} else {
+						hr_alarma = hr;
+					}
+					if(min_alarma >= 0 && min_alarma <= 9){
+						min_alarma = "0"+min_alarma;
+					}
+					hora_alarma = hr_alarma+":"+min_alarma+":"+horario;
 				}
-				if(min_alarma >= 0 && min_alarma <= 9){
-					min_alarma = "0"+min_alarma;
-				}
-				hora_alarma = hr_alarma+":"+min_alarma+":"+horario;
 			}
 			db.transaction(function(tx){
 				tx.executeSql("INSERT INTO cita (id, etiqueta, fecha, hora, descripcion, alarma, hora_alarma) VALUES ("+id+", '"+etiqueta+"', '"+fecha+"', '"+hora+"', '"+descripcion+"', '"+alarma+"', '"+hora_alarma+"');");
@@ -472,8 +524,42 @@
 			var hora;
 			fecha = dia+"/"+mes+"/"+ano;
 			hora = hr+":"+min+":"+horario;
+			var hora_alarma = "";
+			var min_alarma = "";
+			if(localStorage["alarma"] == 0){
+				hora_alarma = hora;
+			} else {
+				if(localStorage["alarma"] == 60) {
+					hr_alarma = parseInt(hr)-1;
+					if(hr_alarma >= 1 && hr_alarma <=9){
+						hr_alarma = "0"+hr_alarma;
+					}
+					if(hr_alarma == 0){
+						hr_alarma = 12;
+					}
+					hora_alarma = hr_alarma+":"+min+":"+horario;
+				} else{
+					min_alarma = parseInt(min)-localStorage["alarma"];
+					if(min_alarma < 0){
+						min_alarma = min_alarma + 60;
+						hr_alarma = parseInt(hr)-1;
+						if(hr_alarma >= 1 && hr_alarma <=9){
+							hr_alarma = "0"+hr_alarma;
+						}
+						if(hr_alarma == 0){
+							hr_alarma = 12;
+						}
+					} else {
+						hr_alarma = hr;
+					}
+					if(min_alarma >= 0 && min_alarma <= 9){
+						min_alarma = "0"+min_alarma;
+					}
+					hora_alarma = hr_alarma+":"+min_alarma+":"+horario;
+				}
+			}
 			db.transaction(function(tx){
-				tx.executeSql("UPDATE cita SET etiqueta='"+etiqueta+"', fecha='"+fecha+"', hora='"+hora+"', descripcion='"+descripcion+"', alarma='"+alarma+"' WHERE id="+$$('#id_modificar_cita').val()+";");
+				tx.executeSql("UPDATE cita SET etiqueta='"+etiqueta+"', fecha='"+fecha+"', hora='"+hora+"', descripcion='"+descripcion+"', alarma='"+alarma+"', hora_alarma='"+hora_alarma+"' WHERE id="+$$('#id_modificar_cita').val()+";");
 			}, error_log);
 			Lungo.Notification.success(
 				"Datos guardados",
@@ -568,7 +654,7 @@
 			//fecha_final = dia_final+"/"+mes_final+"/"+ano_final;
 			hora = hr+":"+min+":"+horario;
 			db.transaction(function(tx){
-				tx.executeSql("INSERT INTO medicamento (id, medicamento, fecha_inicio, hora_ingesta, frecuencia, docificacion, alarma) VALUES ("+id+", '"+nombre+"', '"+fecha_inicio+"', '"+fecha_final+"', '"+hora+"', '"+frecuencia+"', '"+docificacion+"', '"+alarma+"');");
+				tx.executeSql("INSERT INTO medicamento (id, medicamento, fecha_inicio, hora_ingesta, frecuencia, docificacion, alarma) VALUES ("+id+", '"+nombre+"', '"+fecha_inicio+"', '"+hora+"', '"+frecuencia+"', '"+docificacion+"', '"+alarma+"');");
 			}, error_log);
 			Lungo.Notification.success(
 				"Datos guardados",

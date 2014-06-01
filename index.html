@@ -369,14 +369,12 @@
                     <br>
                     <fieldset class="radius">
                         <p>Fecha Inicio</p>
-                            
-                         <div style="width:30%; float:left; margin-right:10px;">
+                        <div style="width:30%; float:left; margin-right:10px;">
                             <select class="custom border" id="anoInicia_modificar_medicamento">
                                 <option value="">Año</option>
                             </select>
                         </div>
-
-                          <div style="width:30%; float:left; margin-right:10px;">
+                        <div style="width:30%; float:left; margin-right:10px;">
                             <select class="custom border" id="mesInicia_modificar_medicamento" onchange="update_fecha_med(this.value)">
                                 <option value="">Mes</option>
                                 <option value="01">Enero</option>
@@ -393,13 +391,11 @@
                                 <option value="12">Diciembre</option>
                             </select>
                         </div>
-
                         <div style="width:30%; float:left;">
                             <select class="custom border" id="diaInicio_modificar_medicamento" onchange="update_dia_med(this.value)">
                                 <option value="">Día</option>
                             </select>
                         </div>
-                       
                     </fieldset>
                     <br>
                     <fieldset class="radius">
@@ -424,19 +420,20 @@
                     </fieldset>
                     <br>
                     <fieldset class="radius">
-                        <p>Frecuencia</p>
-                        <select class="custom border" id="frecuencia_modificar_medicamento">
-                            <option value=""></option>
-                            <option value="4">4 hrs.</option>
-                            <option value="8">8 hrs.</option>
-                            <option value="12">12 hrs.</option>
-                            <option value="24">24 hrs.</option>
-                        </select>
-                    </fieldset>
-                    <br>
-                    <fieldset class="radius">
-                        <p>Docificacion</p>
-                        <input type="number" class="border" id="docificacion_modificar_medicamento">
+                        <div style="width:45%; float:left; margin-right:10px;">
+                            <p>Frecuencia</p>
+                            <select class="custom border" id="frecuencia_modificar_medicamento">
+                                <option value=""></option>
+                                <option value="4">4 hrs.</option>
+                                <option value="8">8 hrs.</option>
+                                <option value="12">12 hrs.</option>
+                                <option value="24">24 hrs.</option>
+                            </select>
+                        </div>
+                        <div style="width:45%; float:left;">
+                            <p>Dosificación</p>
+                            <input type="number" class="border" id="docificacion_modificar_medicamento">
+                        </div>
                     </fieldset>
                     <br>
                     <fieldset class="radius">
@@ -504,7 +501,6 @@
                         </div>
                     </fieldset>
                     <br>
-                    <br>
                     <fieldset class="radius">
                         <p>Hora de primer ingesta</p>
                         <div style="width:30%; float:left; margin-right:10px;">
@@ -527,19 +523,20 @@
                     </fieldset>
                     <br>
                     <fieldset class="radius">
-                        <p>Frecuencia</p>
-                        <select class="custom border" id="frecuencia_nuevo_medicamento">
-                            <option value=""></option>
-                            <option value="4">4 hrs.</option>
-                            <option value="8">8 hrs.</option>
-                            <option value="12">12 hrs.</option>
-                            <option value="24">24 hrs.</option>
-                        </select>
-                    </fieldset>
-                    <br>
-                    <fieldset class="radius">
-                        <p>Dosificación</p>
-                        <input type="number" class="border" id="docificacion_nuevo_medicamento">
+                        <div style="width:45%; float:left; margin-right:10px;">
+                            <p>Frecuencia</p>
+                            <select class="custom border" id="frecuencia_nuevo_medicamento">
+                                <option value=""></option>
+                                <option value="4">4 hrs.</option>
+                                <option value="8">8 hrs.</option>
+                                <option value="12">12 hrs.</option>
+                                <option value="24">24 hrs.</option>
+                            </select>
+                        </div>
+                        <div style="width:45%; float:left;">
+                            <p>Dosificación</p>
+                            <input type="number" class="border" id="docificacion_nuevo_medicamento">
+                        </div>
                     </fieldset>
                     <br>
                     <fieldset class="radius">
@@ -688,7 +685,7 @@
                     </fieldset>
                         <br>
                     <fieldset class="radius">
-                        <p>tiempo de notificacion</p>
+                        <p>Notificarme antes de la hora de la cita</p>
                         <select class="custom border" id="tiempo_alarma_cita">
                             <option value="0">Desactivado</option>
                             <option value="15">15 min</option>
