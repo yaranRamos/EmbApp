@@ -279,7 +279,7 @@
 	$$('#eliminar_cuenta').tap(function() {
 		Lungo.Notification.html('<div class="form"><br><p>Ingresa tu pin</p><input type="password" class="border" style="width:80%" id="pin_eliminar"><br><button class="anchor" style="width:100%" id="btn_eliminar_cuenta">Aceptar</button><button class="anchor" style="width:100%" data-action="close">Cancelar</button></div>');
 	});
-
+	
 	$$('#btn_eliminar_cuenta').tap(function(){
 		var pin = $$('#pin_eliminar').val();
 		if(localStorage["pin"] == pin){
