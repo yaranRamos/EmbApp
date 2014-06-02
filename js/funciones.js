@@ -136,6 +136,8 @@
 				$$('#dia_modificar_cita').val(fecha[0]);
 				$$('#mes_modificar_cita').val(fecha[1]);
 				$$('#ano_modificar_cita').val(fecha[2]);
+				$$('#numero_tratamiento_modificar_medicamento').val(result.rows.item(0).duracion);
+				$$('#tipo_tratamiento_modificar_medicamento').val(result.rows.item(0).tipo);
 				$$('#hora_modificar_cita').val(hora[0]);
 				$$('#min_modificar_cita').val(hora[1]);
 				$$('#horario_modificar_cita').val(hora[2]);
@@ -641,6 +643,8 @@
 		//var dia_final = $$('#dia_fecha_final_nuevo_medicamento').val();
 		//var mes_final = $$('#mes_fecha_final_nuevo_medicamento').val();
 		//var ano_final = $$('#ano_fecha_final_nuevo_medicamento').val();
+		var tiempo_t = $$('#numero_tratamiento_medicamento').val();
+		var tipo_t = $$('#tipo_tratamiento_medicamento').val();
 		var hr = $$('#hora_nuevo_medicamento').val();
 		var min = $$('#min_nuevo_medicamento').val();
 		var horario = $$('#horario_nuevo_medicamento').val();
@@ -671,7 +675,7 @@
 			//fecha_final = dia_final+"/"+mes_final+"/"+ano_final;
 			hora = hr+":"+min+":"+horario;
 			db.transaction(function(tx){
-				tx.executeSql("INSERT INTO medicamento (id, medicamento, fecha_inicio, hora_ingesta, frecuencia, docificacion, alarma) VALUES ("+id+", '"+nombre+"', '"+fecha_inicio+"', '"+hora+"', '"+frecuencia+"', '"+docificacion+"', '"+alarma+"');");
+				tx.executeSql("INSERT INTO medicamento (id, medicamento, fecha_inicio, hora_ingesta, frecuencia, docificacion, alarma, duracion, tipo) VALUES ("+id+", '"+nombre+"', '"+fecha_inicio+"', '"+hora+"', '"+frecuencia+"', '"+docificacion+"', '"+alarma+"', '"+tiempo_t+"', '"+tipo_t+"');");
 			}, error_log);
 			Lungo.Notification.success(
 				"Datos guardados",
@@ -691,6 +695,8 @@
 		/*var dia_final = $$('#diaFinal_modificar_medicamento').val();
 		var mes_final = $$('#mesFinal_modificar_medicamento').val();
 		var ano_final = $$('#anoFinal_modificar_medicamento').val();*/
+		var tiempo_t = $$('#numero_tratamiento_modificar_medicamento').val();
+		var tipo_t = $$('#tipo_tratamiento_modificar_medicamento').val();
 		var hr = $$('#hora_modificar_medicamento').val();
 		var min = $$('#min_modificar_medicamento').val();
 		var horario = $$('#horario_modificar_medicamento').val();
@@ -721,7 +727,7 @@
 			//fecha_final = dia_final+"/"+mes_final+"/"+ano_final;
 			hora = hr+":"+min+":"+horario;
 			db.transaction(function(tx){
-				tx.executeSql("UPDATE medicamento SET medicamento='"+nombre+"', fecha_inicio='"+fecha_inicio+"', hora_ingesta='"+hora+"', frecuencia='"+frecuencia+"', docificacion='"+docificacion+"', alarma='"+alarma+"' WHERE id="+$$('#id_modificar_medicamento').val()+";");
+				tx.executeSql("UPDATE medicamento SET medicamento='"+nombre+"', fecha_inicio='"+fecha_inicio+"', hora_ingesta='"+hora+"', frecuencia='"+frecuencia+"', docificacion='"+docificacion+"', alarma='"+alarma+"', duracion='"+tiempo_t+"', tipo='"+tipo_t+"' WHERE id="+$$('#id_modificar_medicamento').val()+";");
 			}, error_log);
 			Lungo.Notification.success(
 				"Datos guardados",
