@@ -881,10 +881,10 @@ function meses(){
 	}
 	else{
 	// Obtenemos los dias del mes y el año
-		if((mes == 1)||(mes == 3)||(mes == 5)||(mes == 7)||(mes == 8)||(mes == 10)||(mes == 12)){
+		if((mes == 01)||(mes == 03)||(mes == 05)||(mes == 07)||(mes == 08)||(mes == 10)||(mes == 12)){
        		dias=31;
     	}
-   		else if((mes == 4)||(mes == 6)||(mes == 9)||(mes == 11)){
+   		else if((mes == 04)||(mes == 06)||(mes == 09)||(mes == 11)){
        		dias=30;
     	}
     	else if(mes == 02)
@@ -898,7 +898,11 @@ function meses(){
     	}
     }
     for (var i=1; i<=dias; i++) {
-    	dia.append('<option value = "'+ i + '">'+ i + '</option>');
+    	if(i<10){
+    		dia.append('<option value = "0'+ i + '">0'+ i + '</option>');
+    	}else{
+    		dia.append('<option value = "'+ i + '">'+ i + '</option>');
+    	}
 	}
 }
 
