@@ -399,6 +399,28 @@
                     </fieldset>
                     <br>
                     <fieldset class="radius">
+                        <p>Tiempo de tratamiento</p>
+                        <div style="width:45%; float:left; margin-right:10px;">
+                            <select class="custom border" id="numero_tratamiento_modificar_medicamento">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                            </select>
+                        </div>
+                        <div style="width:45%; float:left;">
+                            <select class="custom border" id="tipo_tratamiento_modificar_medicamento">
+                                <option value="1">Días</option>
+                                <option value="2">Semanas</option>
+                                <option value="2">Meses</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                    <br>
+                    <fieldset class="radius">
                         <p>Hora de primer ingesta</p>
                         <div style="width:30%; float:left; margin-right:10px;">
                             <select class="custom border" id="hora_modificar_medicamento">
@@ -468,14 +490,12 @@
                     <br>
                     <fieldset class="radius">
                         <p>Fecha Inicio</p>
-                            
                         <div style="width:30%; float:left; margin-right:10px;">
                             <select class="custom border" id="ano_fecha_inicion_nuevo_medicamento">
                                 <option value="">Año</option>
                                 
                             </select>
                         </div>
-
                          <div style="width:30%; float:left; margin-right:10px;">
                             <select class="custom border" id="mes_fecha_inicion_nuevo_medicamento" onchange="get_dias_med(this.value)">
                                 <option value="">Mes</option>
@@ -493,10 +513,31 @@
                                 <option value="12">Diciembre</option>
                             </select>
                         </div>
-
                         <div style="width:30%; float:left;">
                             <select class="custom border" id="dia_fecha_inicion_nuevo_medicamento" onchange="valida_dia_newMed(this.value)">
                                 <option value="">Día</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                    <br>
+                    <fieldset class="radius">
+                        <p>Tiempo de tratamiento</p>
+                        <div style="width:45%; float:left; margin-right:10px;">
+                            <select class="custom border" id="numero_tratamiento_medicamento">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                            </select>
+                        </div>
+                        <div style="width:45%; float:left;">
+                            <select class="custom border" id="tipo_tratamiento_medicamento">
+                                <option value="1">Días</option>
+                                <option value="2">Semanas</option>
+                                <option value="2">Meses</option>
                             </select>
                         </div>
                     </fieldset>
